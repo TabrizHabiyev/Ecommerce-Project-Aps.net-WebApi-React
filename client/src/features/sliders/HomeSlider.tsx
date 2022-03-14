@@ -1,27 +1,66 @@
 import React from 'react';
+import {Swiper, SwiperSlide} from "swiper/react";
+import "swiper/css";
+import { Keyboard, Pagination, Navigation } from "swiper";
+import  img1 from  '../../assets/img/slider/home1-slider1.webp';
+import  img2 from  '../../assets/img/slider/home1-slider2.webp';
+import  img3 from  '../../assets/img/slider/home1-slider3.webp';
 
+import ProductCard from "../Products/ProductCard";
+import {Link} from "react-router-dom";
+
+const loop =[1,2,3,4,5]
+
+const slider=[
+    {
+        title:'Stylish Furniture Bring Beauti',
+        description:'Great furniture can bring beauty at your home, So buy our popular',
+        imageUrl:`${img1}`
+    },
+    {
+        title:'Stylish Furniture Bring Beauti',
+        description:'Great furniture can bring beauty at your home, So buy our popular',
+        imageUrl:`${img2}`
+    },
+    {
+        title:'Stylish Furniture Bring Beauti',
+        description:'Great furniture can bring beauty at your home, So buy our popular',
+        imageUrl:`${img3}`
+    }
+]
 
 function HomeSlider() {
     return (
         <>
-            <section className="hero__slider--section">
-                <div className="hero__slider--inner hero__slider--activation swiper">
-                    <div className="hero__slider--wrapper swiper-wrapper">
+            <Swiper
+                loop={true}
+                className="mySwiper"
+                slidesPerView={1}
+                keyboard={{
+                    enabled: true,
+                }}
+                pagination={{
+                    clickable: true,
+                }}
+                navigation={true}
+                modules={[Keyboard, Pagination, Navigation]}
+               >
+                {slider.map(({title,description,imageUrl})=>(
+                    <SwiperSlide>
                         <div className="swiper-slide ">
-                            <div className="hero__slider--items hero__slider--bg slider1">
+                            <div className="hero__slider--items slider1"  style={{
+                                backgroundImage: `url(${imageUrl})`
+                            }}>
                                 <div className="container-fluid">
                                     <div className="hero__slider--items__inner">
                                         <div className="row row-cols-1">
                                             <div className="col">
                                                 <div className="slider__content">
-                                                    <p className="slider__content--desc desc1 text-white mb-15">Discover
-                                                        our best furniture collection from home</p>
-                                                    <h2 className="slider__content--maintitle text-white h1">Stylish
-                                                        Furniture <br/> 
-                                                            Bring Beauti</h2>
-                                                    <p className="slider__content--desc text-white mb-35 d-sm-2-none">Great
-                                                        furniture can bring beauty at your home, So buy our popular <br/>
-                                                            and stylish furniture. Now you get up to 100 % discount now.
+                                                    <h2 className="slider__content--maintitle text-white h1">
+                                                        {title}
+                                                    </h2>
+                                                    <p className="slider__content--desc text-white mb-35 d-sm-2-none">
+                                                        {description}
                                                     </p>
                                                     <a className="slider__content--btn primary__btn" href="shop.html">Start
                                                         to Buying</a>
@@ -32,63 +71,13 @@ function HomeSlider() {
                                 </div>
                             </div>
                         </div>
-                        <div className="swiper-slide ">
-                            <div className="hero__slider--items hero__slider--bg slider2">
-                                <div className="container-fluid">
-                                    <div className="hero__slider--items__inner">
-                                        <div className="row">
-                                            <div className="col-lg-6 offset-lg-6">
-                                                <div className="slider__content text-center">
-                                                    <p className="slider__content--desc desc1 right text-white mb-15">Discover
-                                                        our best furniture collection from home</p>
-                                                    <h2 className="slider__content--maintitle text-white h1">Stylish
-                                                        Furniture <br/>
-                                                            Bring Beauti</h2>
-                                                    <p className="slider__content--desc text-white mb-35 d-sm-2-none">Great
-                                                        furniture can bring beauty at your home, So buy our popular <br/>
-                                                            and stylish furniture. Now you get up to 100 % discount now.
-                                                    </p>
-                                                    <a className="slider__content--btn primary__btn" href="shop.html">Start
-                                                        to Buying</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="swiper-slide ">
-                            <div className="hero__slider--items hero__slider--bg slider3">
-                                <div className="container-fluid">
-                                    <div className="hero__slider--items__inner">
-                                        <div className="row row-cols-1">
-                                            <div className="col">
-                                                <div className="slider__content">
-                                                    <p className="slider__content--desc desc1 text-white mb-15">Discover
-                                                        our best furniture collection from home</p>
-                                                    <h2 className="slider__content--maintitle text-white h1">Stylish
-                                                        Furniture <br/>
-                                                            Bring Beauti</h2>
-                                                    <p className="slider__content--desc text-white mb-35 d-sm-2-none">Great
-                                                        furniture can bring beauty at your home, So buy our popular <br/>
-                                                            and stylish furniture. Now you get up to 100 % discount now.
-                                                    </p>
-                                                    <a className="slider__content--btn primary__btn" href="shop.html">Start
-                                                        to Buying</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="swiper__nav--btn swiper-button-next"></div>
-                    <div className="swiper__nav--btn swiper-button-prev"></div>
-                </div>
-            </section>
+                    </SwiperSlide>
+                ))}
+
+                <div className="swiper__nav--btn swiper-button-next"></div>
+                <div className="swiper__nav--btn swiper-button-prev"></div>
+            </Swiper>
         </>
     );
 }
-
 export default HomeSlider;
