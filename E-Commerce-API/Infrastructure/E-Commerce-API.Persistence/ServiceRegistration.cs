@@ -1,4 +1,5 @@
-﻿using E_Commerce_API.Persistence.Contexts;
+﻿using E_Commerce_API.Application.AutoMapper;
+using E_Commerce_API.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +16,9 @@ namespace E_Commerce_API.Persistence
         
         public static void AddPersistenceServices(this IServiceCollection services)
         {
-            services.AddDbContext<ECommerceAPIDBContext>(options => options.UseSqlServer(Configuration.ConnectionString));
+            services.AddDbContext<ECommerceAPIDBContext>(options => options.UseSqlServer(Configuration.ConnectionString, b => b.MigrationsAssembly(typeof(ECommerceAPIDBContext).Assembly.FullName)));
+
+             services.AddAutoMapper(typeof(AutoMapperProfile));
         }
         
     }
