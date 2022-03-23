@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
 using E_Commerce_API.Domain.Entites;
+using Microsoft.AspNetCore.Http;
 
 namespace E_Commerce_API.Persistence
 {
@@ -54,7 +55,7 @@ namespace E_Commerce_API.Persistence
             })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ECommerceAPIDBContext>();
-             
+
         }
 
     }

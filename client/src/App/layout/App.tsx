@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Header from "./Header";
 import {Route,Routes} from "react-router-dom";
 
@@ -13,10 +13,17 @@ import AboutUsPage from "../../features/aboutus/AboutUsPage";
 import ContactPage from "../../features/contact/ContactPage";
 import NotFound from "../../features/404/NotFound";
 import Footer from "./Footer";
-
-import {Views} from "../../Admin/views";
-
+import Register from "../../features/account/Register";
+import Login from "../../features/account/Login";
+import {useAppDispatch} from "../../store/configureStore";
+import {fetchCurrentUser} from "../../features/account/accountSlice";
 function App() {
+   const dispatch = useAppDispatch();
+    useEffect( ()=>{
+        dispatch(fetchCurrentUser())
+
+    },[dispatch])
+
     return (
         <>
             <header className="header__section header__transparent">
@@ -29,8 +36,8 @@ function App() {
                 <Route path='/blog' element={<BlogPage/>}/>
                 <Route path='/contact' element={<ContactPage/>}/>
                 <Route path="*" element={<NotFound/>}/>
-                {/*<Route path='/login' element={HomePage}/>*/}
-                {/*<Route path='/register' element={HomePage}/>*/}
+                <Route path='/login' element={<Login/>}/>
+                <Route path='/register' element={<Register/>}/>
             </Routes>
             <Footer/>
         </>

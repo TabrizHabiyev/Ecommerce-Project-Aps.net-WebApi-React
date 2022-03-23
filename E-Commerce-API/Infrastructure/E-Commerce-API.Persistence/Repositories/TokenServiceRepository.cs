@@ -29,6 +29,7 @@ namespace E_Commerce_API.Persistence.Repositories
             {
               new Claim (ClaimTypes.Email,user.Email),
               new Claim (ClaimTypes.Name,user.Name),
+              new Claim(ClaimTypes.Sid, user.Id)
 
             };
 

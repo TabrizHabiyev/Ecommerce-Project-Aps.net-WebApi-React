@@ -14,7 +14,7 @@ namespace E_Commerce_API.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
         private readonly IConfiguration _config;
         private readonly UserManager<AppUser> _userManager;
@@ -76,7 +76,7 @@ namespace E_Commerce_API.API.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult> teset()
         {
