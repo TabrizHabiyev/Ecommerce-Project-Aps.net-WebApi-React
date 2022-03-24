@@ -14,6 +14,8 @@ import ContactPage from "../../features/contact/ContactPage";
 import NotFound from "../../features/404/NotFound";
 import Footer from "./Footer";
 
+import {Views} from "../../Admin/views";
+
 function App() {
     return (
         <>
