@@ -10,9 +10,8 @@ namespace E_Commerce_API.Application.Dto.UserDto
     public class UserRegisterDto
     {    
         public string Email { get; set; }
-        public string Name { get; set; }
-        public string Suranme { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
+        public string Gender { get; set; }
     }
 }

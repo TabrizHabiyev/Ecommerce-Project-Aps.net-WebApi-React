@@ -7,7 +7,7 @@ const sleep = ()=> new Promise(resolve => setTimeout(resolve,500));
 
 
 axios.defaults.baseURL = 'https://localhost:7029/api/';
-// axios.defaults.withCredentials =true;
+
 
 const responseBody =(response:AxiosResponse)=> response.data;
 
@@ -28,31 +28,32 @@ if (user) {
     return Promise.reject(error);
 });
 }
-
-
 axios.interceptors.response.use(async response=>{
     await sleep()
     return response
  },
+
     (error:AxiosError)=>{
-     const {data,status}= error.response!;
-     const navigate = useNavigate();
-     switch (status){
-         case 400:
-             if (data.error){
-                 const modelStateError:string[] = []
-                 for (const key in data.error){
-                   modelStateError.push(data.error[key]);
-                 }
-                 throw modelStateError.flat();
-             }
-             toast.error(data.title)
-             break;
+
+     const { data, status } = error.response!;
+        switch (status) {
+            case 400:
+                if (data.errors) {
+                    const modelStateErrors: string[] = [];
+                    for (const key in data.errors) {
+                        if (data.errors[key]) {
+                            modelStateErrors.push(data.errors[key])
+                        }
+                    }
+                    throw modelStateErrors.flat();
+                }
+                toast.error(data.title);
+                break;
          case 401:
              toast.error(data.title)
              break;
          case 500:
-             navigate('/server-error');
+             // navigate('/server-error');
              break;
          case 404:
              toast.error(data.title);

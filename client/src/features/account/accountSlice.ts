@@ -1,10 +1,7 @@
-
 import {User} from "../../models/user";
 import {createAsyncThunk, createSlice, isAnyOf} from "@reduxjs/toolkit";
 import {FieldValues, useForm} from "react-hook-form";
 import agent from "../../App/api/agent";
-import {useNavigate} from "react-router-dom";
-import {useAppDispatch} from "../../store/configureStore";
 interface AccountState{
     user:User | null
 }

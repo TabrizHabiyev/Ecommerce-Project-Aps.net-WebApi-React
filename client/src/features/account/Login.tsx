@@ -7,30 +7,42 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {Paper} from "@mui/material";
-import {Link, useNavigate} from "react-router-dom";
-import agent from "../../App/api/agent";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {FieldValues, useForm} from "react-hook-form";
 import {useAppDispatch} from "../../store/configureStore";
 import {signInUser} from "./accountSlice";
+import Avatar from "@mui/material/Avatar";
+import {message} from "antd";
 
 const theme = createTheme();
 
 export default function Login() {
     const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useAppDispatch();
-    const {register,handleSubmit,formState:{isSubmitting,errors,isValid}} = useForm({
-        
-    });
+    const {register,handleSubmit,setError,formState:{isSubmitting,errors,isValid}} = useForm({});
     
   async function submitForm(data:FieldValues) {
-      await dispatch(signInUser(data))
-      navigate('/')
-    }
+      await dispatch(signInUser(data));
+       if (!errors)
+           navigate('/')
+  }
     return (
         <ThemeProvider theme={theme}>
             <Container component={Paper} maxWidth="sm">
-                    <Typography component="h1" variant="h5">
-                        Sign in
+                <Box
+                    sx={{
+                        marginTop: 8,
+                        marginBottom:8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                   >
+                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    </Avatar>
+                    <Typography component="h3" variant="h5">
+                       Login
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit(submitForm)} noValidate sx={{ mt: 1 }}>
                         <TextField
@@ -39,7 +51,7 @@ export default function Login() {
                             label="Email Address"
                             autoComplete="email"
                             autoFocus
-                            {...register('email',{required:'Username is required'})}
+                            {...register('email',{required:'Email is required'})}
                             error={!!errors.email}
                             helperText={errors?.email?.message}
                         />
@@ -73,6 +85,7 @@ export default function Login() {
                             </Grid>
                         </Grid>
                     </Box>
+                </Box>
             </Container>
         </ThemeProvider>
     );

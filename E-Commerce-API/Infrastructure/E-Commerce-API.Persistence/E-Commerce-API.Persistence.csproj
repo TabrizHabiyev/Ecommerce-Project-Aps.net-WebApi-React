@@ -32,8 +32,4 @@
     <ProjectReference Include="..\..\Core\E-Commerce-API.Domain\E-Commerce-API.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

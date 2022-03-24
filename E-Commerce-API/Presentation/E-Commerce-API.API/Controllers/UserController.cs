@@ -3,11 +3,7 @@ using E_Commerce_API.Application.Dto;
 using E_Commerce_API.Application.Dto.UserDto;
 using E_Commerce_API.Application.Repositories;
 using E_Commerce_API.Domain.Entites;
-using E_Commerce_API.Persistence.Repositories;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using System.Security.Cryptography;
 using Microsoft.AspNetCore.Identity;
 
 namespace E_Commerce_API.API.Controllers
@@ -40,7 +36,7 @@ namespace E_Commerce_API.API.Controllers
             if (user is null)
             {
                 return NotFound(
-                new LoginRespenseDto
+                new ResponseDto
                 {
                     Status = "404",
                     Message = "Invalid password or email!"
@@ -58,7 +54,7 @@ namespace E_Commerce_API.API.Controllers
                 new LoginRespenseDto
                 {
                     Status = "200",
-                    Message = $"User with the username {user.UserName} has successfully logged in!",
+                    Message = $"User with the username {user.Name + user.Surname} has successfully logged in!",
                     Token = await token,
                     Name = user.Name,
                     Surname = user.Surname,
@@ -76,33 +72,15 @@ namespace E_Commerce_API.API.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<ActionResult> teset()
-        {
-            return Ok("SSS");
-
-        }
-
         [HttpPost]
         public async Task<ActionResult> Register([FromBody] UserRegisterDto userRegisterDto)
         {
-            var isExist = await _userManager.FindByEmailAsync(userRegisterDto.Email);
-
-            if (isExist is not null)
-            {
-                return Conflict(new ResponseDto
-                {
-                    Status = "409",
-                    Message = "This email already exists"
-                });
-            }
 
             AppUser user = new AppUser()
             {
                 Email = userRegisterDto.Email,
-                Name = userRegisterDto.Name,
-                Surname = userRegisterDto.Suranme,
+                Gender = userRegisterDto.Gender,
+                IsActive = true,
                 UserName = Guid.NewGuid().ToString(),
             };
 
@@ -120,11 +98,11 @@ namespace E_Commerce_API.API.Controllers
             }
             else
             {
-                return Unauthorized(new ResponseDto
+                foreach (var error in result.Errors)
                 {
-                    Status = "401",
-                    Message = "Unexpected error occured!"
-                });
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+                return ValidationProblem();
             }
         }
 

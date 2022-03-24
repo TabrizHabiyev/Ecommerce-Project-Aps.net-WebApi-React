@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import Header from "./Header";
-import {Route,Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 import  '../../assets/css/plugins/swiper-bundle.min.css';
 import  '../../assets/css/plugins/glightbox.min.css';
@@ -10,20 +10,22 @@ import HomePage from "../../features/home/HomePage";
 import ShopPage from "../../features/shop/ShopPage";
 import BlogPage from "../../features/blog/BlogPage";
 import AboutUsPage from "../../features/aboutus/AboutUsPage";
-import ContactPage from "../../features/contact/ContactPage";
 import NotFound from "../../features/404/NotFound";
 import Footer from "./Footer";
 import Register from "../../features/account/Register";
 import Login from "../../features/account/Login";
-import {useAppDispatch} from "../../store/configureStore";
+import {useAppDispatch, useAppSelector} from "../../store/configureStore";
 import {fetchCurrentUser} from "../../features/account/accountSlice";
+import PrivateRoute from "./PrivateRoute";
+import ContactPage from "../../features/contact/ContactPage";
+import {element} from "prop-types";
+
+
 function App() {
    const dispatch = useAppDispatch();
     useEffect( ()=>{
         dispatch(fetchCurrentUser())
-
     },[dispatch])
-
     return (
         <>
             <header className="header__section header__transparent">
@@ -34,10 +36,10 @@ function App() {
                 <Route path='/shop' element={<ShopPage/>}/>
                 <Route path='/about' element={<AboutUsPage/>}/>
                 <Route path='/blog' element={<BlogPage/>}/>
-                <Route path='/contact' element={<ContactPage/>}/>
                 <Route path="*" element={<NotFound/>}/>
-                <Route path='/login' element={<Login/>}/>
-                <Route path='/register' element={<Register/>}/>
+                <Route path="/login" element={<PrivateRoute><Login/></PrivateRoute>}/>
+                <Route path="/register" element={<PrivateRoute><Register/></PrivateRoute>}/>
+                <Route path="/contact" element={<ContactPage/>}/>
             </Routes>
             <Footer/>
         </>
