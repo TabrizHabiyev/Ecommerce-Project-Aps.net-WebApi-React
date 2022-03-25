@@ -1,0 +1,26 @@
+.user{
+ flex: 4;
+ padding: 20px;
+}
+.userTitleContainer{
+ align-items: center;
+ display: flex;
+ justify-content: space-evenly;
+}
+.userContainer{
+ display: flex;
+ margin-top: 20px;
+}
+
+.userCreate{
+ flex: 2;
+ padding: 20px;
+ box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+ margin-left: 20px;
+}
+
+.createUserIcon{
+   width: 30px!important;
+   height: 30px!important;
+   color: #55adee!important;
+}

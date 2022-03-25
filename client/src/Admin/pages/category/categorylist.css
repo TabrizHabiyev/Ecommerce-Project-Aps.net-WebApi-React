@@ -1,0 +1,64 @@
+.categoryList{
+    flex: 4;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.categoryFileds{
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.catagoryContainer{
+    margin-top: 10px;
+    border-radius: 3%;
+    -webkit-box-shadow: -3px 2px 16px 0px rgba(5,122,85,0.75);
+    box-shadow: -3px 2px 16px 0px rgba(5,122,85,0.75);
+}
+.categorySearchField,.categorySelectField{
+    background-color: #F4F5F7
+}
+.categoryAddButton{
+    background-color: #057A55!important;
+    color: white;
+    font-size: 240px;
+    height: 47px;
+}
+.categoryAddModal{
+    -webkit-box-shadow: -3px 2px 16px 0px rgba(5,122,85,0.75);
+    box-shadow: -3px 2px 16px 0px rgba(5,122,85,0.75);
+}
+.MuiDropzonePreviewList-image{
+    width: 100px!important;
+    height: 100%!important;
+    opacity: 1!important;
+    z-index: 7!important;
+    max-width: 100px!important;
+}
+.MuiDropzoneArea-root {
+    width: 223px!important;
+    display: flex!important;
+    min-height: 307% !important;
+    flex-direction: row!important;
+    flex-wrap: nowrap!important;
+    align-content: flex-start!important;
+    justify-content: flex-start!important;
+}
+
+.MuiDropzonePreviewList-removeButton {
+    top: -15px!important;
+    right: 100px!important;
+    width: 40px!important;
+    height: 40px!important;
+    opacity: 5!important;
+    visibility: visible!important;
+position: absolute!important;
+    transition: .5s ease!important;
+}
+.catagoryListContainer{
+    font-size: 20px!important;
+    margin-top: 20px;
+    -webkit-box-shadow: -3px 2px 16px 0px rgba(5,122,85,0.75);
+    box-shadow: -3px 2px 16px 0px rgba(5,122,85,0.75);
+}

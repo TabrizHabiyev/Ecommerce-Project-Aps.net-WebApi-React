@@ -29,10 +29,9 @@ function App() {
         dispatch(fetchCurrentUser())
     },[dispatch])
     return (
-            location.pathname == '/admin' ?
-                <AdminApp/>
-                :<><header className="header__section header__transparent">
-                    <Header/>
+         <>
+             <header className="header__section header__transparent">
+                <Header/>
                 </header>
                 <Routes>
                 <Route path='/' element={<HomePage/>}/>

@@ -6,12 +6,14 @@ import GroupIcon from '@mui/icons-material/Group';
 import HomeIcon from '@mui/icons-material/Home';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import SettingsIcon from '@mui/icons-material/Settings';
+import {Link} from "react-router-dom";
+import AdminApp from "../../AdminApp";
 export default function  Sidebar() {
     return (
         <div  className="sidebar">
            <div className="sidebarWrapper">
                <div className="sidebarMenu">
-                   <h3 className="sidebarTitle">Dashboard</h3>
+                       <h3 className="sidebarTitle">Dashboard</h3>
                    <ul className="sidebarList">
                        <li className="sidebarListItem active">
                            <HomeIcon className="sidebarIcon"/>
@@ -21,10 +23,12 @@ export default function  Sidebar() {
                            <HomeIcon className="sidebarIcon"/>
                            Orders
                        </li>
+
                        <li className="sidebarListItem">
                           <ViewListIcon className="sidebarIcon"/>
                            Category
                        </li>
+
                        <li className="sidebarListItem">
                           <LocalMallIcon className="sidebarIcon"/>
                            Product
