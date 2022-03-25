@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using E_Commerce_API.Application.Dto.CategoryDto;
 using E_Commerce_API.Application.Dto.UserDto;
 using E_Commerce_API.Domain.Entites;
 using System;
@@ -16,6 +17,7 @@ namespace E_Commerce_API.Application.AutoMapper
             CreateMap<UserLoginDto, AppUser>().ReverseMap();
             CreateMap<UserRegisterDto,AppUser>().ReverseMap();
             CreateMap<AppUserDto, AppUser>().ReverseMap();
+            CreateMap<CategoryDto, Category>().ReverseMap();
         }
     }
 }

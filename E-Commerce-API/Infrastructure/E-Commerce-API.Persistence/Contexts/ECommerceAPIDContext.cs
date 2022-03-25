@@ -14,5 +14,9 @@ namespace E_Commerce_API.Persistence.Contexts
         public ECommerceAPIDBContext(DbContextOptions options) : base(options)
         { }
 
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<CategoryBrand> CategoryBrands { get; set; }
+
     }
 }

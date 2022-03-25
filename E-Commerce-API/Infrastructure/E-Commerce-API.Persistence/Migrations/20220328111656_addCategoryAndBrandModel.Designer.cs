@@ -4,6 +4,7 @@ using E_Commerce_API.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Commerce_API.Persistence.Migrations
 {
     [DbContext(typeof(ECommerceAPIDBContext))]
-    partial class ECommerceAPIDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220328111656_addCategoryAndBrandModel")]
+    partial class addCategoryAndBrandModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,7 +126,7 @@ namespace E_Commerce_API.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands", (string)null);
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("E_Commerce_API.Domain.Entites.Category", b =>
@@ -162,7 +164,7 @@ namespace E_Commerce_API.Persistence.Migrations
 
                     b.HasIndex("MainCategoryId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("E_Commerce_API.Domain.Entites.CategoryBrand", b =>
@@ -189,7 +191,7 @@ namespace E_Commerce_API.Persistence.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("CategoryBrands", (string)null);
+                    b.ToTable("CategoryBrands");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

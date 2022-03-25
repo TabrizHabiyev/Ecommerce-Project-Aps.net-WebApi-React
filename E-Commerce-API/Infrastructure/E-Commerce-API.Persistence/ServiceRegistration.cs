@@ -9,7 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
 using E_Commerce_API.Domain.Entites;
-using Microsoft.AspNetCore.Http;
+using AspNetCoreInjection.TypedFactories;
+using E_Commerce_API.Persistence.Concretes;
 
 namespace E_Commerce_API.Persistence
 {
@@ -28,7 +29,7 @@ namespace E_Commerce_API.Persistence
             #endregion
 
 
-            #region JWT 
+            #region JWT Configure
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -50,12 +51,19 @@ namespace E_Commerce_API.Persistence
             services.AddScoped<ITokenServiceRepository, TokenServiceRepository>();
             #endregion
 
+
+            #region Identity services configure
             services.AddIdentityCore<AppUser>(opt => {
                 opt.User.RequireUniqueEmail = true;
             })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ECommerceAPIDBContext>();
+            #endregion
 
+            #region Dependency Injection service 
+            services.AddScoped<ICategoryReadRepository, CategoryReadRepository>();
+            services.AddScoped<ICategoryWriteRepository, CategoryWriteRepository>();
+            #endregion
         }
 
     }
