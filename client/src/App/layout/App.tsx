@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import Header from "./Header";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes, useLocation} from "react-router-dom";
 
 import  '../../assets/css/plugins/swiper-bundle.min.css';
 import  '../../assets/css/plugins/glightbox.min.css';
@@ -19,19 +19,22 @@ import {fetchCurrentUser} from "../../features/account/accountSlice";
 import PrivateRoute from "./PrivateRoute";
 import ContactPage from "../../features/contact/ContactPage";
 import {element} from "prop-types";
+import AdminApp from "../../Admin/AdminApp";
 
 
 function App() {
+    const location = useLocation();
    const dispatch = useAppDispatch();
     useEffect( ()=>{
         dispatch(fetchCurrentUser())
     },[dispatch])
     return (
-        <>
-            <header className="header__section header__transparent">
-                <Header/>
-            </header>
-            <Routes>
+            location.pathname == '/admin' ?
+                <AdminApp/>
+                :<><header className="header__section header__transparent">
+                    <Header/>
+                </header>
+                <Routes>
                 <Route path='/' element={<HomePage/>}/>
                 <Route path='/shop' element={<ShopPage/>}/>
                 <Route path='/about' element={<AboutUsPage/>}/>
@@ -40,9 +43,9 @@ function App() {
                 <Route path="/login" element={<PrivateRoute><Login/></PrivateRoute>}/>
                 <Route path="/register" element={<PrivateRoute><Register/></PrivateRoute>}/>
                 <Route path="/contact" element={<ContactPage/>}/>
-            </Routes>
-            <Footer/>
-        </>
+                </Routes>
+                <Footer/>
+                </>
     );
 }
 

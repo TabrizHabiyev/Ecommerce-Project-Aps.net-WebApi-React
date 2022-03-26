@@ -22,23 +22,16 @@ namespace E_Commerce_API.API.Controllers
         }
 
 
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            
-            return new string[] { "value1", "value2" };
-        }
-
 
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult>  Get(string id)
         {
-            return "value";
+            return Ok();
         }
 
  
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CategoryDto categoryDto)
+        public async Task<IActionResult> CreateCategory([FromBody] CategoryDto categoryDto)
         {
            var IsExist = await _categoryRead.GetSingleAsync(x => x.Name == categoryDto.Name);
             if (IsExist != null) return BadRequest("This category already exsist");
@@ -49,15 +42,5 @@ namespace E_Commerce_API.API.Controllers
         }
 
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
