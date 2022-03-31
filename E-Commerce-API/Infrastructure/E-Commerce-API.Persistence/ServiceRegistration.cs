@@ -67,6 +67,12 @@ namespace E_Commerce_API.Persistence
             services.AddScoped<ICategoryWriteRepository, CategoryWriteRepository>();
             #endregion
 
+            #region Dependency Injection product service 
+            services.AddScoped<IProductReadRepository, ProductReadRepository>();
+            services.AddScoped<IProductWriteRepository, ProductWriteRepository>();
+            #endregion
+
+
             #region Dependency Injection Image  Services
             services.AddScoped<IImageServices, ImageServices>();
             #endregion

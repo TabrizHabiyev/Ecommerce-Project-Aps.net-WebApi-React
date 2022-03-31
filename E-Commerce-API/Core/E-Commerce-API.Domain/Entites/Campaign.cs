@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 
 namespace E_Commerce_API.Domain.Entites
 {
-    public class CategoryBrand:BaseEntity
+    public class Campaign:BaseEntity
     {
-        public Guid CategoryId { get; set; }
-        public Category Category { get; set; }
-        public Guid BrandId { get; set; }
-        public Brand Brand { get; set; }
+        public int Discount { get; set; }
+        public List<Product> Products { get; set; }
     }
 }

@@ -106,7 +106,7 @@ namespace E_Commerce_API.Persistence.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("E_Commerce_API.Domain.Entites.Brand", b =>
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.Campaign", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -115,16 +115,15 @@ namespace E_Commerce_API.Persistence.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Discount")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Campaigns");
                 });
 
             modelBuilder.Entity("E_Commerce_API.Domain.Entites.Category", b =>
@@ -168,13 +167,65 @@ namespace E_Commerce_API.Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("E_Commerce_API.Domain.Entites.CategoryBrand", b =>
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.Color", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("BrandId")
+                    b.Property<string>("ColorCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Colors");
+                });
+
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.ColorProduct", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ColorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ColorId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ColorsProducts");
+                });
+
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.Product", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CampaignId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CategoryId")
@@ -183,16 +234,118 @@ namespace E_Commerce_API.Persistence.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Featured")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("inStock")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampaignId");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.ProductPhoto", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PhotoUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BrandId");
+                    b.HasIndex("ProductId");
 
-                    b.HasIndex("CategoryId");
+                    b.ToTable("ProductPhotos");
+                });
 
-                    b.ToTable("CategoryBrands");
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.ProductTag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TagId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("ProductTags");
+                });
+
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.Tag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -337,23 +490,64 @@ namespace E_Commerce_API.Persistence.Migrations
                     b.Navigation("MainCategory");
                 });
 
-            modelBuilder.Entity("E_Commerce_API.Domain.Entites.CategoryBrand", b =>
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.ColorProduct", b =>
                 {
-                    b.HasOne("E_Commerce_API.Domain.Entites.Brand", "Brand")
-                        .WithMany("categoryBrands")
-                        .HasForeignKey("BrandId")
+                    b.HasOne("E_Commerce_API.Domain.Entites.Color", "Color")
+                        .WithMany("ColorProducts")
+                        .HasForeignKey("ColorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("E_Commerce_API.Domain.Entites.Category", "Category")
-                        .WithMany("categoryBrands")
-                        .HasForeignKey("CategoryId")
+                    b.HasOne("E_Commerce_API.Domain.Entites.Product", "Product")
+                        .WithMany("ColorProducts")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Brand");
+                    b.Navigation("Color");
 
-                    b.Navigation("Category");
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.Product", b =>
+                {
+                    b.HasOne("E_Commerce_API.Domain.Entites.Campaign", "Campaign")
+                        .WithMany("Products")
+                        .HasForeignKey("CampaignId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Campaign");
+                });
+
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.ProductPhoto", b =>
+                {
+                    b.HasOne("E_Commerce_API.Domain.Entites.Product", "Product")
+                        .WithMany("productPhotos")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.ProductTag", b =>
+                {
+                    b.HasOne("E_Commerce_API.Domain.Entites.Product", "Product")
+                        .WithMany("ProductTags")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("E_Commerce_API.Domain.Entites.Tag", "Tag")
+                        .WithMany("ProductTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -407,16 +601,33 @@ namespace E_Commerce_API.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("E_Commerce_API.Domain.Entites.Brand", b =>
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.Campaign", b =>
                 {
-                    b.Navigation("categoryBrands");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("E_Commerce_API.Domain.Entites.Category", b =>
                 {
                     b.Navigation("SubCategory");
+                });
 
-                    b.Navigation("categoryBrands");
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.Color", b =>
+                {
+                    b.Navigation("ColorProducts");
+                });
+
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.Product", b =>
+                {
+                    b.Navigation("ColorProducts");
+
+                    b.Navigation("ProductTags");
+
+                    b.Navigation("productPhotos");
+                });
+
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.Tag", b =>
+                {
+                    b.Navigation("ProductTags");
                 });
 #pragma warning restore 612, 618
         }
