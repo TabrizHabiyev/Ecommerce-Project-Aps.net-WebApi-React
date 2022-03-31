@@ -8,7 +8,9 @@ import Home from "./pages/home/home";
 import UserEdit from "./pages/User/UserEdit";
 import CreateUser from "./pages/User/CreateUser";
 import CategoryList from "./pages/category/CategoryList";
-
+import ProductList from "./pages/product/ProductList";
+import AddProduct from "./pages/product/AddProduct";
+import ProductEdit from "./pages/product/ProductEdit";
 function AdminApp() {
     return(
         <>
@@ -31,6 +33,12 @@ function AdminApp() {
                 // Category route
                 <Route path="/admin/categories" element={<CategoryList/>}/>
                 //Categry route son
+
+                //Product routee
+                <Route path="/admin/products" element={<ProductList/>}/>
+                <Route path="/admin/products/addProduct" element={<AddProduct/>}/>
+                <Route path="/admin/products/editProduct/:id" element={<ProductEdit/>}/>
+                //Product route son
             </Routes>
         </div>
         </>

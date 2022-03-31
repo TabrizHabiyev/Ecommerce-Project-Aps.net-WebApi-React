@@ -45,8 +45,7 @@ namespace E_Commerce_API.Persistence.Migrations
                         name: "FK_Categories_Categories_MainCategoryId",
                         column: x => x.MainCategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id"
-                        );
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -142,12 +141,18 @@ namespace E_Commerce_API.Persistence.Migrations
                     IsMain = table.Column<bool>(type: "bit", nullable: false),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CampaignId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductPhotos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductPhotos_Campaigns_CampaignId",
+                        column: x => x.CampaignId,
+                        principalTable: "Campaigns",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ProductPhotos_Products_ProductId",
                         column: x => x.ProductId,
@@ -197,6 +202,11 @@ namespace E_Commerce_API.Persistence.Migrations
                 name: "IX_ColorsProducts_ProductId",
                 table: "ColorsProducts",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductPhotos_CampaignId",
+                table: "ProductPhotos",
+                column: "CampaignId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductPhotos_ProductId",

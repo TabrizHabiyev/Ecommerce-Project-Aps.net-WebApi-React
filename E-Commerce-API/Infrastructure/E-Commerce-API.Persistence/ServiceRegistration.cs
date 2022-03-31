@@ -9,10 +9,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
 using E_Commerce_API.Domain.Entites;
-using AspNetCoreInjection.TypedFactories;
 using E_Commerce_API.Persistence.Concretes;
 using E_Commerce_API.Infrastructure.Interfaces;
 using E_Commerce_API.Infrastructure.ImageService;
+using E_Commerce_API.Persistence.Concretes.ProductColor;
 
 namespace E_Commerce_API.Persistence
 {
@@ -70,8 +70,24 @@ namespace E_Commerce_API.Persistence
             #region Dependency Injection product service 
             services.AddScoped<IProductReadRepository, ProductReadRepository>();
             services.AddScoped<IProductWriteRepository, ProductWriteRepository>();
-            #endregion
+            //Product Photo 
+            services.AddScoped<IProductPhotoReadRepository, ProductPhotoReadRepository>();
+            services.AddScoped<IProductPhotoWriteRepository, ProductPhotoWriteRepository>();
+            //Product Tags 
+            services.AddScoped<IProductTagReadRepository, ProductTagReadRepository>();
+            services.AddScoped<IProductTagWriteRepository, ProductTagWriteRepository>();
 
+            services.AddScoped<ITagReadRepository, TagReadRepository>();
+            services.AddScoped<ITagWriteRepository, TagWriteRepository>();
+
+            //Product Color
+            services.AddScoped<IProductColorReadRepository, ProductColorReadRepository>();
+            services.AddScoped<IProductColorWriteRepository, ProductColorWriteRepository>();
+            services.AddScoped<IColorReadRepository, ColorReadRepository>();
+
+            //Product Campaign 
+            services.AddScoped<ICampaignReadRepository, CampaignReadRepository>();
+            #endregion
 
             #region Dependency Injection Image  Services
             services.AddScoped<IImageServices, ImageServices>();

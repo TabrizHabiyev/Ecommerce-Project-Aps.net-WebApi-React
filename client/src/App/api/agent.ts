@@ -93,6 +93,26 @@ const Admin = {
     allCategory: () => requests.get(`category`)
 }
 
+
+const Category = {
+    getOllCategory:() => requests.get('category')
+}
+const Product = {
+    getProductById: (id: string | undefined) => requests.get(`product/${id}`),
+    createProduct: (product: any) => requests.post('product', product),
+    updateProduct: (product: any) => requests.put('product', product),
+    deleteProduct: (id: string) => requests.delete(`product/${id}`),
+    allProduct: () => requests.get(`product`),
+    allTas: () => requests.get(`product/tags`),
+    getProductDiscount: () => requests.get(`product/compaign`),
+    allColor: () => requests.get(`product/ollColor`),
+    getProductByCategory:(id:string) => requests.get(`product/id?categoryId=${id}`)
+}
+
+const ProductPhoto = {
+    deletePhoto: (id:string) => requests.delete(`productphoto/${id}`),
+}
+
 const Account = {
     login:(value:any) => requests.post('user/login',value),
     register:(value:any) => requests.post('user/register',value),
@@ -101,7 +121,10 @@ const Account = {
 
 const agent ={
     Account,
-    Admin
+    Admin,
+    Product,
+    Category,
+    ProductPhoto
 }
 
 export default agent

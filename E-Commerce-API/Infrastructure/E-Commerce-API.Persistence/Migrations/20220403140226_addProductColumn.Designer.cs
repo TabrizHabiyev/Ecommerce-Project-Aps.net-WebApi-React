@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Commerce_API.Persistence.Migrations
 {
     [DbContext(typeof(ECommerceAPIDBContext))]
-    [Migration("20220402213837_addNewModelsUpdateAnd_Confiugre_CascadeDelete_For_CategorySelfJoin")]
-    partial class addNewModelsUpdateAnd_Confiugre_CascadeDelete_For_CategorySelfJoin
+    [Migration("20220403140226_addProductColumn")]
+    partial class addProductColumn
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -227,11 +227,14 @@ namespace E_Commerce_API.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CampaignId")
+                    b.Property<Guid?>("CampaignId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CompaignExpiryDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -276,6 +279,9 @@ namespace E_Commerce_API.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CampaignId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
@@ -296,6 +302,8 @@ namespace E_Commerce_API.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CampaignId");
 
                     b.HasIndex("ProductId");
 
@@ -514,16 +522,18 @@ namespace E_Commerce_API.Persistence.Migrations
             modelBuilder.Entity("E_Commerce_API.Domain.Entites.Product", b =>
                 {
                     b.HasOne("E_Commerce_API.Domain.Entites.Campaign", "Campaign")
-                        .WithMany("Products")
-                        .HasForeignKey("CampaignId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("CampaignId");
 
                     b.Navigation("Campaign");
                 });
 
             modelBuilder.Entity("E_Commerce_API.Domain.Entites.ProductPhoto", b =>
                 {
+                    b.HasOne("E_Commerce_API.Domain.Entites.Campaign", null)
+                        .WithMany("Products")
+                        .HasForeignKey("CampaignId");
+
                     b.HasOne("E_Commerce_API.Domain.Entites.Product", "Product")
                         .WithMany("productPhotos")
                         .HasForeignKey("ProductId")

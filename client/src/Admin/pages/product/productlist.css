@@ -1,0 +1,45 @@
+.categoryList{
+    flex: 4;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.categoryFileds{
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.catagoryContainer{
+    margin-top: 10px;
+    border-radius: 3%;
+    -webkit-box-shadow: -3px 2px 16px 0px rgba(152, 162, 160, 0.75);
+    box-shadow: -3px 2px 16px 0px rgba(128, 140, 136, 0.75);
+}
+.categorySearchField,.categorySelectField{
+    background-color: #F4F5F7
+}
+.categoryAddButton{
+    background-color: #057A55!important;
+    color: white;
+    font-size: 240px;
+    height: 47px;
+}
+.categoryEditButton{
+    background-color: #1565C0!important;
+    color: white;
+    font-size: 240px;
+    height: 47px;
+}
+.categoryAddModal{
+    -webkit-box-shadow: -3px 2px 16px 0px rgba(152, 162, 160, 0.75);
+    box-shadow: -3px 2px 16px 0px rgba(128, 140, 136, 0.75);
+}
+
+
+.catagoryListContainer{
+    font-size: 20px!important;
+    margin-top: 20px;
+    -webkit-box-shadow: -3px 2px 16px 0px rgba(152, 162, 160, 0.75);
+    box-shadow: -3px 2px 16px 0px rgba(128, 140, 136, 0.75);
+}

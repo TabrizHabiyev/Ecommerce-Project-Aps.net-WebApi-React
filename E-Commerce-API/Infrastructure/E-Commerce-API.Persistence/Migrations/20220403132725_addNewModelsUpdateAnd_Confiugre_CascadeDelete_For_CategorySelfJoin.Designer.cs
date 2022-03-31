@@ -4,6 +4,7 @@ using E_Commerce_API.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Commerce_API.Persistence.Migrations
 {
     [DbContext(typeof(ECommerceAPIDBContext))]
-    partial class ECommerceAPIDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220403132725_addNewModelsUpdateAnd_Confiugre_CascadeDelete_For_CategorySelfJoin")]
+    partial class addNewModelsUpdateAnd_Confiugre_CascadeDelete_For_CategorySelfJoin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,14 +227,11 @@ namespace E_Commerce_API.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CampaignId")
+                    b.Property<Guid>("CampaignId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CompaignExpiryDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -521,7 +520,9 @@ namespace E_Commerce_API.Persistence.Migrations
                 {
                     b.HasOne("E_Commerce_API.Domain.Entites.Campaign", "Campaign")
                         .WithMany()
-                        .HasForeignKey("CampaignId");
+                        .HasForeignKey("CampaignId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Campaign");
                 });

@@ -14,12 +14,10 @@ import NotFound from "../../features/404/NotFound";
 import Footer from "./Footer";
 import Register from "../../features/account/Register";
 import Login from "../../features/account/Login";
-import {useAppDispatch, useAppSelector} from "../../store/configureStore";
+import {useAppDispatch} from "../../store/configureStore";
 import {fetchCurrentUser} from "../../features/account/accountSlice";
 import PrivateRoute from "./PrivateRoute";
 import ContactPage from "../../features/contact/ContactPage";
-import {element} from "prop-types";
-import AdminApp from "../../Admin/AdminApp";
 
 
 function App() {

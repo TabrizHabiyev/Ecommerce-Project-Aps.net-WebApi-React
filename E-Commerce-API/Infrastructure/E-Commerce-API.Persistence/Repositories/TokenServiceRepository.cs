@@ -28,7 +28,6 @@ namespace E_Commerce_API.Persistence.Repositories
             var claims = new List<Claim>
             {
               new Claim (ClaimTypes.Email,user.Email),
-              new Claim (ClaimTypes.Name,user.Name),
               new Claim(ClaimTypes.Sid, user.Id)
             };
 
