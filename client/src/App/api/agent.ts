@@ -1,16 +1,12 @@
 import  axios,{AxiosError,AxiosResponse} from "axios";
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
 import {store} from "../../store/configureStore";
-const sleep = ()=> new Promise(resolve => setTimeout(resolve,500));
 
-
-axios.defaults.baseURL = 'https://localhost:7029/api/';
-
-
-const responseBody =(response:AxiosResponse)=> response.data;
-
+const sleep = () => new Promise(resolve => setTimeout(resolve, 500));
+axios.defaults.baseURL = 'http://localhost:5029/api/';
+axios.defaults.withCredentials = true;
+const responseBody = (response: AxiosResponse) => response.data;
 let user = localStorage.getItem('user');
 if (user) {
     axios.interceptors.request.use((config) => {
@@ -32,7 +28,6 @@ axios.interceptors.response.use(async response=>{
     await sleep()
     return response
  },
-
     (error:AxiosError)=>{
 
      const { data, status } = error.response!;
@@ -119,12 +114,19 @@ const Account = {
     currentUser:() => requests.get('account/profile'),
 }
 
+const Basket ={
+    get:()=> requests.get('basket'),
+    addItem:(productId:string,quantity =1)=>requests.post(`basket?productId=${productId}&quantity=${quantity}`,{}),
+    removeItem:(productId:string,quantity =1)=>requests.delete(`basket?productId=${productId}&quantity=${quantity}`),
+}
+
 const agent ={
     Account,
     Admin,
     Product,
     Category,
-    ProductPhoto
+    ProductPhoto,
+    Basket
 }
 
 export default agent

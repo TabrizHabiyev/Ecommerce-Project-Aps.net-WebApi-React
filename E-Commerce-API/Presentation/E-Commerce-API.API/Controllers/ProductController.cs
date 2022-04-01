@@ -304,7 +304,7 @@ namespace E_Commerce_API.API.Controllers
                     if (imageResult.Error != null)
                         return BadRequest(new ProblemDetails { Title = imageResult.Error.Message });
                     ProductPhoto productPhoto = new();
-                    if (i == 0) productPhoto.IsMain = true;
+                    if (i == 1) productPhoto.IsMain = true;
                     productPhoto.ProductId = updateProduct.Id;
                     productPhoto.PhotoUrl = imageResult.SecureUrl.ToString();
                     productPhoto.PublicId = imageResult.PublicId;

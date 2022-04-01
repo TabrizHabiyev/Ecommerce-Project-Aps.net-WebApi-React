@@ -1,10 +1,27 @@
-import React from 'react';
+import React, {useState} from 'react';
 import  cartPhoto from '../../assets/img/product/big-product1.webp';
 import {Link} from "react-router-dom";
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-function ProductCard({product}:any) {
-    return (
+import {Product} from "../../models/Product";
+import agent from "../../App/api/agent";
+import {Button} from "@mui/material";
+
+interface Props{
+    product:Product;
+}
+
+function ProductCard({product}:Props) {
+
+    const [loading,setLoading] = useState(false);
+
+    const handleAddItem = (productId:string)=>{
+        console.log(productId)
+        setLoading(true)
+         agent.Basket.addItem(productId)
+            .catch(error => console.log(error))
+            .finally(()=>setLoading(false))
+    }
+return (
         <>
             <div className="col mb-30">
                 <div className="product__items ">
@@ -57,17 +74,16 @@ function ProductCard({product}:any) {
                         </div>
                         <h3 className="product__items--content__title h4">
                             <Link to="product-details.html">
-                                {product?.name}
+                                {product.name}
                             </Link>
                         </h3>
                         <div className="product__items--price">
-                            <span className="current__price">{product?.price}</span>
+                            <span className="current__price">{product.price}</span>
                             <span className="old__price">$200.00</span>
                         </div>
-                        <Link className="product__items--action__cart--btn primary__btn" to="cart.html">
-                            <AddShoppingCartIcon className="product__items--action__cart--btn__icon"/>
-                            <span className="add__to--cart__text"> Add to cart</span>
-                        </Link>
+                        <div className="product__items--action__cart--btn primary__btn">
+                         <Button onClick={()=> handleAddItem(product.id)}>Add To Basket</Button>
+                        </div>
                     </div>
                 </div>
             </div>

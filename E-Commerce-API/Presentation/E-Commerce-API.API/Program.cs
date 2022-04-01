@@ -1,5 +1,4 @@
 using E_Commerce_API.Persistence;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 
@@ -13,7 +12,6 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddPersistenceServices();
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddSwaggerGen(swagger =>
 {
     #region Enable Authorization using Swagger (JWT)
@@ -35,9 +33,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseHttpsRedirection();
-
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000", "http://localhost:3001"));
+//app.UseHttpsRedirection();
+app.UseRouting();
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000", "http://localhost:3001"));
 
 app.UseAuthentication();
 app.UseAuthorization();

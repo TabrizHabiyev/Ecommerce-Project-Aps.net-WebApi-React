@@ -92,6 +92,13 @@ namespace E_Commerce_API.Persistence
             #region Dependency Injection Image  Services
             services.AddScoped<IImageServices, ImageServices>();
             #endregion
+
+            #region Dependency Injection Basket service
+            services.AddScoped<IBasketReadRepository, BasketReadRepository>();
+            services.AddScoped<IBasketWriteRepository, BasketWriteRepository>();
+            services.AddScoped<IBasketItemReadRepository, BasketItemReadRepository>();
+            services.AddScoped<IBasketItemWriteRepository, BasketItemWriteRepository>();
+            #endregion
         }
 
     }

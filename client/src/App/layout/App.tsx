@@ -18,6 +18,7 @@ import {useAppDispatch} from "../../store/configureStore";
 import {fetchCurrentUser} from "../../features/account/accountSlice";
 import PrivateRoute from "./PrivateRoute";
 import ContactPage from "../../features/contact/ContactPage";
+import ProductDetail from "../../features/Products/ProductDetail";
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
                 <Route path='/about' element={<AboutUsPage/>}/>
                 <Route path='/blog' element={<BlogPage/>}/>
                 <Route path="*" element={<NotFound/>}/>
+                <Route path="/products/detail" element={<ProductDetail/>}/>
                 <Route path="/login" element={<PrivateRoute><Login/></PrivateRoute>}/>
                 <Route path="/register" element={<PrivateRoute><Register/></PrivateRoute>}/>
                 <Route path="/contact" element={<ContactPage/>}/>

@@ -19,6 +19,7 @@ namespace E_Commerce_API.Persistence.Contexts
         public DbSet<Campaign> Campaigns { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<ProductTag> ProductTags { get; set;}
+        public DbSet<Basket> Baskets { get; set; }
 
 
 
