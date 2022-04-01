@@ -3,6 +3,13 @@
     margin-left: 10px;
     margin-right: 10px;
 }
+
+.loadingEditPage{
+    flex: 4!important;
+    margin-left: 10px!important;
+    margin-right: 10px!important;
+}
+
 .productContainer{
     margin-top: 10px;
     border-radius: 3%;

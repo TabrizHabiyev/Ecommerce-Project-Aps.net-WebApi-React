@@ -28,9 +28,18 @@ export interface Product{
   quantity: number;
   featured: boolean;
   categoryId: string;
+  categoryName:string;
   campaignId: string;
   compaignExpiryDate?: any;
   photoUrl: PhotoUrl[];
   tagList: string[];
   colorList: ColorList[];
+}
+export interface  ProductParams{
+  orderBy: string;
+  searchTerm?: string;
+  types:string[];
+  category:string[];
+  pageNumber:number;
+  pageSize:number;
 }

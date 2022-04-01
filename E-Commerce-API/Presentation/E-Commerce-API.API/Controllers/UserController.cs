@@ -49,7 +49,7 @@ namespace E_Commerce_API.API.Controllers
             {
 
                 var token = _tokenService.GenerateToken(user);
-
+                var userRole = _roleManager.FindByIdAsync(user.Id);
                 return Ok(
                 new LoginRespenseDto
                 {

@@ -15,29 +15,25 @@ import agent from "../../../App/api/agent";
 import {toast, ToastContainer} from "react-toastify";
 import {Link} from "react-router-dom";
 import {TailSpin } from  'react-loader-spinner'
+import {useAppDispatch, useAppSelector} from "../../../store/configureStore";
+import {fetchProductsAsync, productSelectors} from "../../../features/Products/productSlice";
 function CategoryList() {
-    const [loading,setLoading] = useState(false);
     const [product,setProduct] = useState<any[]>([])
-    useEffect( ()=>{
-        const fetchData = async () => {
-            try {
-                await agent.Product.allProduct().then((data)=>{
-                    setProduct(data)
-                    setLoading(true)
-                })
 
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        fetchData()
-    },[])
+    const data = useAppSelector(productSelectors.selectAll);
+
+    const {productsLoaded,status} = useAppSelector(state => state.product)
+    const dispatct = useAppDispatch();
+
+    useEffect(()=>{
+        if(!productsLoaded) dispatct(fetchProductsAsync())
+        setProduct(data)
+    },[productsLoaded,dispatct])
+
     const handleDeleteCategory = async(id:string)=>{
-        setLoading(false)
         try {
             await agent.Product.deleteProduct(id).then(()=>{
                 setProduct(product.filter(x => x.id !== id))
-                setLoading(true)
                 toast.success("Product is deleted successful!")
             })
         } catch (error) {
@@ -90,7 +86,7 @@ function CategoryList() {
             }
         }
     ];
-
+    if(status.includes('peding'))return <h1>yuklernir...</h1>
     return (
         <>
             <div className="categoryList">
@@ -106,7 +102,6 @@ function CategoryList() {
                         </Link>
                     </div>
                 </div>
-                {loading === false ?
                     <TailSpin ariaLabel="loading-indicator" />
                         :
                     <DataGrid
@@ -117,8 +112,6 @@ function CategoryList() {
                         rowsPerPageOptions={[5]}
                         checkboxSelection
                     />
-                }
-
             </div>
         </>
     );

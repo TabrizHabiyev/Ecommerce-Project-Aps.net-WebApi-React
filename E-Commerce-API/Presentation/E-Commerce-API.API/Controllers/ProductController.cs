@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using E_Commerce_API.API.Extensions;
+using E_Commerce_API.API.RequestHelpers;
 using E_Commerce_API.Application.Dto.ProductDto;
 using E_Commerce_API.Application.Repositories;
 using E_Commerce_API.Domain.Entites;
 using E_Commerce_API.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace E_Commerce_API.API.Controllers
 {
@@ -45,19 +48,27 @@ namespace E_Commerce_API.API.Controllers
             _campaignRead = campaignRead;
         }
 
-        // GET: api/<ProductController>
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+
+        [HttpGet("GetProducts")]
+        public async Task<ActionResult<PageList<Product>>> GetProducts([FromQuery] ProductParams productParams)
         {
-            var product = _productRead.GetAll().Include(x => x.ProductTags).ThenInclude(x => x.Tag).Include(x => x.ColorProducts).ThenInclude(x => x.Color).Include(x => x.productPhotos).AsSplitQuery().ToList();
+            var query = _productRead.GetAll().Sort(productParams.OrderBy)
+                .Serach(productParams.SearchTerm)
+                .Filter(productParams.Types, productParams.Category).Include(x => x.Category).Include(x => x.ProductTags).ThenInclude(x => x.Tag).Include(x => x.ColorProducts).ThenInclude(x => x.Color).Include(x => x.productPhotos).AsQueryable().AsSplitQuery();
+
+               
+
+            var products = await PageList<Product>.ToPageList(query, productParams.PageNumber, productParams.PageSize);
+
+            Response.AddPaginatonHeader(products.MetaData);
 
             List<ProductResponseDto> responseDto = new List<ProductResponseDto>();
 
-            foreach (var item in product)
+            foreach (var item in products)
             {
                 ProductResponseDto dto = new ProductResponseDto()
                 {
-                  
+
                     Id = item.Id,
                     name = item.name,
                     Description = item.Description,
@@ -66,9 +77,10 @@ namespace E_Commerce_API.API.Controllers
                     inStock = item.inStock,
                     Quantity = item.Quantity,
                     Featured = item.Featured,
+                    CategoryName = item.Category.Name,
                     CampaignId = item.CampaignId,
                     CompaignExpiryDate = item.CompaignExpiryDate,
-                    photoUrl = item.productPhotos.Select(x => new ProductPhoto { PhotoUrl =x.PhotoUrl,Id =x.Id }).ToList(),
+                    photoUrl = item.productPhotos.Select(x => new ProductPhoto { PhotoUrl = x.PhotoUrl, Id = x.Id }).ToList(),
                     tagList = item.ProductTags.Select(x => x.Tag).Select(x => x.Name).ToList(),
                     colorList = item.ColorProducts.Select(x => x.Color)
                     .Select(x => new Color
@@ -85,6 +97,9 @@ namespace E_Commerce_API.API.Controllers
             return Ok(responseDto);
         }
 
+
+
+
         [HttpGet("id")]
         public async Task<IActionResult> GetProductByCategory(string categoryId)
         {
@@ -98,10 +113,9 @@ namespace E_Commerce_API.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var product = _productRead.GetWhere(x => x.Id == id).Include(x => x.ProductTags).ThenInclude(x => x.Tag).Include(x => x.ColorProducts).ThenInclude(x => x.Color).Include(x => x.productPhotos).AsSplitQuery().FirstOrDefault();
+            var product = _productRead.GetWhere(x => x.Id == id).Include(x=>x.Category).Include(x => x.ProductTags).ThenInclude(x => x.Tag).Include(x => x.ColorProducts).ThenInclude(x => x.Color).Include(x => x.productPhotos).AsSplitQuery().FirstOrDefault();
             if (product == null) return NotFound();
 
-            List<ProductResponseDto> responseDto = new List<ProductResponseDto>();
 
                 ProductResponseDto dto = new ProductResponseDto()
                 {
@@ -114,6 +128,7 @@ namespace E_Commerce_API.API.Controllers
                     CategoryId = product.CategoryId,
                     inStock = product.inStock,
                     Quantity = product.Quantity,
+                    CategoryName = product.Category.Name,
                     Featured = product.Featured,
                     CampaignId = product.CampaignId,
                     CompaignExpiryDate = product.CompaignExpiryDate,
@@ -128,9 +143,9 @@ namespace E_Commerce_API.API.Controllers
                     }).ToList(),
 
                 };
-                responseDto.Add(dto);
+                
 
-            return Ok(responseDto);
+            return Ok(dto);
         }
 
         // POST api/<ProductController>

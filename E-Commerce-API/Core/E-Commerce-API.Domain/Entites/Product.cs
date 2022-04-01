@@ -18,6 +18,7 @@ namespace E_Commerce_API.Domain.Entites
         public int Quantity { get; set; }
         public bool Featured { get; set; }
         public Guid CategoryId { get; set; }
+        public Category Category { get; set; }
         public Guid? CampaignId { get; set; }
         public Campaign Campaign { get; set; }
         public DateTime? CompaignExpiryDate { get; set; }

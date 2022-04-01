@@ -20,10 +20,10 @@ return (
                 <div className="product__items ">
                     <div className="product__items--thumbnail">
                         <Link className="product__items--link" to={`/products/detail/${product.id}`}>
-                            {/*<img className="product__items--img product__primary--img"*/}
-                            {/*     src={product[0].photoUrl.photoUrl} alt={product.name}/>*/}
-                            {/*<img className="product__items--img product__secondary--img"*/}
-                            {/*     src={product[0].photoUrl.photoUrl} alt={product.name}/>*/}
+                            <img style={{maxWidth:'187px',maxHeight:'192px'}} className="product__items--img product__primary--img"
+                                 src={product.photoUrl[0].photoUrl!} alt={product.name}/>
+                            <img style={{maxWidth:'187px',maxHeight:'192px'}}  className="product__items--img product__secondary--img"
+                                 src={product.photoUrl[1].photoUrl!} alt={product.name}/>
                         </Link>
                         <div className="product__badge">
                             <span className="product__badge--items sale">New</span>

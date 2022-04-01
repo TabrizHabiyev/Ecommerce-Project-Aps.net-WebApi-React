@@ -118,7 +118,6 @@ function ProductEdit() {
     const removeOldPhoto = async (index:string) => {
           setOldPhoto(oldPhoto.filter(x=>x.id !== index))
           setDeletedPhoto([...deletedPhoto , ...oldPhoto.filter(x=>x.id === index)])
-
     }
     const [loading,setLoading] = useState(false);
     useEffect( ()=>{
@@ -146,9 +145,9 @@ function ProductEdit() {
                        setSuggestion(tagss)
                     }).then(async ()=>{
                         await agent.Product.getProductById(id).then((data)=>{
-                            setData(data[0])
-                            setOldPhoto(data[0].photoUrl)
-                            const taglist = data[0].tagList
+                            setData(data)
+                            setOldPhoto(data.photoUrl)
+                            const taglist = data.tagList
                             const tagss = taglist.map(item => {
                                 return {
                                     id: item,
@@ -181,7 +180,6 @@ function ProductEdit() {
         for (const key in postTags) {
             formData.append('tagList',  postTags[key])
         }
-
         deletedPhoto?.map((item,i)=>{
            formData.append('deletePhotoId',  item.id)
        })
@@ -197,11 +195,9 @@ function ProductEdit() {
            toast.error(err)
        })
     }
-    const [applydiscount,setapplyDiscount]=useState
-    (
-        data.campaignId !== null && data.campaignId !== undefined ?
-         true : false
-    )
+    const [applydiscount,setapplyDiscount]=useState(true)
+    if(loading == false) return   <div className='loadingEditPage'><TailSpin  ariaLabel="loading-indicator" /></div>
+
     return (
         <div className="containerProduct">
             <div className="catagoryContainer">
@@ -219,9 +215,6 @@ function ProductEdit() {
                 </div>
             </div>
             <div className="productContainer">
-                {loading === false ?
-                    <TailSpin ariaLabel="loading-indicator" />:null
-                }
                 <Container component="main">
                     <CssBaseline/>
                     <Box
@@ -313,7 +306,7 @@ function ProductEdit() {
                                         />
                                         <br/>
                                     </Grid>
-                                    {applydiscount === true ?
+                                    {data.campaignId !== null && applydiscount === true?
                                         <>
                                             <Grid item xs={7} sm={3}>
                                                 <FormControl sx={{minWidth: 120}}>

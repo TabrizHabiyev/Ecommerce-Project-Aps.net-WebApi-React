@@ -4,33 +4,31 @@ import './productDetail.css'
 import {Swiper, SwiperSlide} from "swiper/react";
 import SwiperClass,{Navigation,Thumbs} from "swiper";
 import {useParams} from "react-router-dom";
-import {Product} from "../../models/Product";
-import agent from "../../App/api/agent";
 import NotFound from "../404/NotFound";
-import {Button, Form, Input, InputNumber, Space} from "antd";
+import {Button} from "antd";
 import 'antd/dist/antd.css';
 import {useAppDispatch, useAppSelector} from "../../store/configureStore";
-import {addBasketItemAsync, removeBasketItemAsync, setBasket} from "../basket/basketSlice";
+import {addBasketItemAsync, removeBasketItemAsync} from "../basket/basketSlice";
+import {fetchProductAsync, productSelectors} from "./productSlice";
 
 function ProductDetail() {
     const [activeThump,setActiveThumb] = useState<SwiperClass>();
     const {basket} = useAppSelector(store => store.basket);
     const dispatch = useAppDispatch();
-
     const {id} = useParams<{id:string}>();
-    const [product,setProduct] = useState<Product | null>(null)
-    const [loading,setLoading] = useState(true);
+    const product = useAppSelector(state => productSelectors.selectById(state,id!));
+    const {status:productStatus} = useAppSelector(state => state.product)
     const [quantity,setQuantity] = useState(0);
-    const productId = product? product[0].id : null;
-    const item = basket?.items.find(i =>i.productId === productId);
+    let item;
+    if (product) item = basket?.items.find(i => i.productId === product.id);
+
 
     useEffect(()=>{
         if(item) setQuantity(item.quantity);
-       agent.Product.getProductById(id)
-                .then(response => setProduct(response))
-                .catch(error => console.log(error))
-                .finally(()=> console.log(product))
-    },[id,item])
+        if (!product) if (id != null) {
+            dispatch(fetchProductAsync(id))
+        }
+    },[id,item,dispatch,product])
 
     const handleInputChange = (event:any)=>{
         if(event.target.value >= 0){
@@ -41,12 +39,17 @@ function ProductDetail() {
     const handleUpdateCart = ()=>{
         if(!item || quantity > item.quantity){
             const updateQuantity = item ? quantity - item.quantity :quantity;
-            dispatch(addBasketItemAsync({productId:productId,quantity:updateQuantity}))
+            if (product) {
+                dispatch(addBasketItemAsync({productId: product.id, quantity: updateQuantity}))
+            }
         }else{
             const updateQuantity = item.quantity - quantity
-            dispatch(removeBasketItemAsync({productId:productId,quantity: updateQuantity}))
+            if (product) {
+                dispatch(removeBasketItemAsync({productId: product.id, quantity: updateQuantity}))
+            }
         }
     }
+    if (productStatus.includes('pending')) return <h1>yuklenir .....</h1>
     if (!product) return <NotFound/>
     return (
         <div className="productDetailContainer">
@@ -61,7 +64,7 @@ function ProductDetail() {
                 grabCursor={true}
                 className="product--image-slider"
                 >
-                    {product[0].photoUrl.map((item)=>(
+                    {product.photoUrl.map((item)=>(
                         <SwiperSlide key={item.publicId}>
                             <img alt='product name' src={item.photoUrl}/>
                         </SwiperSlide>
@@ -75,7 +78,7 @@ function ProductDetail() {
                         modules={[Navigation,Thumbs]}
                         className="product--image-slider-thumbs"
                     >
-                        {product[0].photoUrl.map((item)=>(
+                        {product.photoUrl.map((item)=>(
                             <SwiperSlide key={item.publicId}>
                                 <div className="product--image-slider-thumbs-wrapper">
                                     <img alt='product name' src={item.photoUrl}/>
@@ -86,12 +89,12 @@ function ProductDetail() {
                 </Grid>
                 <Grid item xs={6}>
                     <div className="product__details--info">
-                            <h2 className="product__details--info__title mb-15">{product[0].name}</h2>
+                            <h2 className="product__details--info__title mb-15">{product.name}</h2>
                             <div className="product__details--info__price mb-10">
                                 <span className="current__price">$299.00</span>
                                 <span className="old__price">$320.00</span>
                             </div>
-                            <p className="product__details--info__desc mb-20">{product[0].description}
+                            <p className="product__details--info__desc mb-20">{product.description}
                             </p>
                             <div className="product__variant">
                                 <div className="product__variant--list mb-20">
@@ -115,7 +118,11 @@ function ProductDetail() {
                                     <div className="product__variant--list mb-15">
                                         <div className="product__details--info__meta">
                                             <p className="product__details--info__meta--list"><strong>Type: </strong>
-                                                <span>{product[0].type}</span></p>
+                                                <span>{product.type}</span></p>
+                                        </div>
+                                        <div className="product__details--info__meta">
+                                            <p className="product__details--info__meta--list"><strong>Category: </strong>
+                                                <span>{product.categoryName}</span></p>
                                         </div>
                                     </div>
                                 </div>

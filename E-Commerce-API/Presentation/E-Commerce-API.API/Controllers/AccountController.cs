@@ -33,7 +33,7 @@ namespace E_Commerce_API.API.Controllers
         public async Task<ActionResult> Profile()
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value;
-           
+
             if (userId is null)
                 return Unauthorized();
 
@@ -42,7 +42,7 @@ namespace E_Commerce_API.API.Controllers
             if (user is null)
                 return NotFound();
             var userDto = _mapper.Map<AppUserDto>(user);
-
+         
             return Ok(userDto);
         }
 
