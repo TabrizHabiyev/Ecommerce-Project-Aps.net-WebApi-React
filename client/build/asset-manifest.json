@@ -1,0 +1,35 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d5d54e7f.css",
+    "main.js": "/static/js/main.28875820.js",
+    "static/media/home1-slider3.webp": "/static/media/home1-slider3.a6a078276050a2708545.webp",
+    "static/media/home1-slider1.webp": "/static/media/home1-slider1.0955d84d2cab1552121a.webp",
+    "static/media/home1-slider2.webp": "/static/media/home1-slider2.b262ec32244a4db63509.webp",
+    "static/media/footer-bg.webp": "/static/media/footer-bg.d808fee43102d238a609.webp",
+    "static/media/home3-slider2.webp": "/static/media/home3-slider2.53d8d27c68aac1a90612.webp",
+    "static/media/banner-bg2.webp": "/static/media/banner-bg2.e656670f238ff81b41dc.webp",
+    "static/media/home2-slider1.webp": "/static/media/home2-slider1.aaca994d922bd01eac0c.webp",
+    "static/media/banner-bg4.webp": "/static/media/banner-bg4.8cd36ca137e0310773d8.webp",
+    "static/media/home2-slider2.webp": "/static/media/home2-slider2.36df178f47dcc1cc9abc.webp",
+    "static/media/breadcrumb-bg.webp": "/static/media/breadcrumb-bg.e78449ee146f40aa3e33.webp",
+    "static/media/big-product1.webp": "/static/media/big-product1.f79c0fab42335bf0fe32.webp",
+    "static/media/404-thumb.webp": "/static/media/404-thumb.40262d600f2c032a51bd.webp",
+    "static/media/home3-slider1.webp": "/static/media/home3-slider1.e91aac374b1e839d88e2.webp",
+    "static/media/instagram2.webp": "/static/media/instagram2.7deabf1fa9a037c210e4.webp",
+    "static/media/blog2.webp": "/static/media/blog2.8303e3d77c0197b90be1.webp",
+    "static/media/heading-shape-img.webp": "/static/media/heading-shape-img.c63342ed15559baef8d5.webp",
+    "static/media/widget-shape.webp": "/static/media/widget-shape.2eaa727b3026bc3abacc.webp",
+    "static/media/payment-visa-card.webp": "/static/media/payment-visa-card.e021a0213bf07944012f.webp",
+    "index.html": "/index.html",
+    "static/media/nav-log.webp": "/static/media/nav-log.b8cf83bfa4d10d015ace.webp",
+    "static/media/border-shape.webp": "/static/media/border-shape.bd50d578e5dae96a88e5.webp",
+    "static/media/right-arrow-angle.webp": "/static/media/right-arrow-angle.1d249613aa2c0236fee4.webp",
+    "static/media/left-arrow-angle.webp": "/static/media/left-arrow-angle.b3a6c3a44b38e3723f59.webp",
+    "main.d5d54e7f.css.map": "/static/css/main.d5d54e7f.css.map",
+    "main.28875820.js.map": "/static/js/main.28875820.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d5d54e7f.css",
+    "static/js/main.28875820.js"
+  ]
+}

@@ -18,6 +18,7 @@ namespace E_Commerce_API.Application.AutoMapper
             CreateMap<UserRegisterDto,AppUser>().ReverseMap();
             CreateMap<AppUserDto, AppUser>().ReverseMap();
             CreateMap<CategoryDto, Category>().ReverseMap();
+            CreateMap<Category,CategoryResponseDto>().ReverseMap();
         }
     }
 }

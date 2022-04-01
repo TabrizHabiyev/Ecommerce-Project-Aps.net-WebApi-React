@@ -31,7 +31,6 @@ function AdminApp() {
                 // Category route
                 <Route path="/admin/categories" element={<CategoryList/>}/>
                 //Categry route son
-
             </Routes>
         </div>
         </>
