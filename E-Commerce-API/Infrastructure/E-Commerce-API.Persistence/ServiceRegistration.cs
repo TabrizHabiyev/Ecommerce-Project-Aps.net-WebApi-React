@@ -25,11 +25,9 @@ namespace E_Commerce_API.Persistence
             services.AddDbContext<ECommerceAPIDBContext>(options => options.UseSqlServer(Configuration.ConnectionString, b => b.MigrationsAssembly(typeof(ECommerceAPIDBContext).Assembly.FullName)));
             #endregion
 
-
             #region Automapper
             services.AddAutoMapper(typeof(AutoMapperProfile));
             #endregion
-
 
             #region JWT Configure
             services.AddAuthentication(options =>
@@ -53,12 +51,11 @@ namespace E_Commerce_API.Persistence
             services.AddScoped<ITokenServiceRepository, TokenServiceRepository>();
             #endregion
 
-
             #region Identity services configure
             services.AddIdentityCore<AppUser>(opt => {
                 opt.User.RequireUniqueEmail = true;
             })
-            .AddRoles<IdentityRole>()
+            .AddRoles<Role>()
             .AddEntityFrameworkStores<ECommerceAPIDBContext>();
             #endregion
 
@@ -98,6 +95,11 @@ namespace E_Commerce_API.Persistence
             services.AddScoped<IBasketWriteRepository, BasketWriteRepository>();
             services.AddScoped<IBasketItemReadRepository, BasketItemReadRepository>();
             services.AddScoped<IBasketItemWriteRepository, BasketItemWriteRepository>();
+            #endregion
+
+            #region Dependency Injection Order service
+            services.AddScoped<IOrderReadRepository, OrderReadRepository>();
+            services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
             #endregion
         }
 

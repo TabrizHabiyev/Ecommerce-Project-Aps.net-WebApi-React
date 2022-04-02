@@ -3,13 +3,12 @@
 
 namespace E_Commerce_API.Domain.Entites
 {
-    public class AppUser:IdentityUser
+    public class AppUser:IdentityUser<Guid>
     {
-        public string? Name { get; set;}
-        public string? Surname { get; set;}
         public DateTime DateOfBirth { get; set;}
         public bool IsActive { get; set;}
         public string? Avatar { get; set;}
         public string Gender { get; set;}
+        public UserAddress Address { get; set; }
     }
 }

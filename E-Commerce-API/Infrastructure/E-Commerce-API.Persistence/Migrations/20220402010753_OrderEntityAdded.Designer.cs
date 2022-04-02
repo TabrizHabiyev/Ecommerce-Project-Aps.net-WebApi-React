@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Commerce_API.Persistence.Migrations
 {
     [DbContext(typeof(ECommerceAPIDBContext))]
-    [Migration("20220414234359_BasketEntitiyAdded")]
-    partial class BasketEntitiyAdded
+    [Migration("20220402010753_OrderEntityAdded")]
+    partial class OrderEntityAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,36 +23,6 @@ namespace E_Commerce_API.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("E_Commerce_API.Domain.BasketItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BasketId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BasketId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("BasketItem");
-                });
 
             modelBuilder.Entity("E_Commerce_API.Domain.Entites.AppUser", b =>
                 {
@@ -157,6 +127,36 @@ namespace E_Commerce_API.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Baskets");
+                });
+
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.BasketItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BasketId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BasketId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("BasketItem");
                 });
 
             modelBuilder.Entity("E_Commerce_API.Domain.Entites.Campaign", b =>
@@ -320,6 +320,8 @@ namespace E_Commerce_API.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CampaignId");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
                 });
@@ -537,7 +539,7 @@ namespace E_Commerce_API.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("E_Commerce_API.Domain.BasketItem", b =>
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.BasketItem", b =>
                 {
                     b.HasOne("E_Commerce_API.Domain.Entites.Basket", "Basket")
                         .WithMany("Items")
@@ -590,7 +592,15 @@ namespace E_Commerce_API.Persistence.Migrations
                         .WithMany("Products")
                         .HasForeignKey("CampaignId");
 
+                    b.HasOne("E_Commerce_API.Domain.Entites.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Campaign");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("E_Commerce_API.Domain.Entites.ProductPhoto", b =>

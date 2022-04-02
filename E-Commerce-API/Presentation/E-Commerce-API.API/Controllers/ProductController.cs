@@ -55,8 +55,7 @@ namespace E_Commerce_API.API.Controllers
             var query = _productRead.GetAll().Sort(productParams.OrderBy)
                 .Serach(productParams.SearchTerm)
                 .Filter(productParams.Types, productParams.Category).Include(x => x.Category).Include(x => x.ProductTags).ThenInclude(x => x.Tag).Include(x => x.ColorProducts).ThenInclude(x => x.Color).Include(x => x.productPhotos).AsQueryable().AsSplitQuery();
-
-               
+        
 
             var products = await PageList<Product>.ToPageList(query, productParams.PageNumber, productParams.PageSize);
 

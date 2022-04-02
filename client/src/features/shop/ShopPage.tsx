@@ -24,7 +24,6 @@ function ShopPage() {
         { value: 'price', label: 'Price - Low to high' },
     ]
 
-
      if(status.includes('peding') || !metaData)return <h1>yuklernir...</h1>
 
     return (
