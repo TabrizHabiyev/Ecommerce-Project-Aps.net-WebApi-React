@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from "./Header";
-import {BrowserRouter, Route, Routes, useLocation} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 
 import  '../../assets/css/plugins/swiper-bundle.min.css';
 import  '../../assets/css/plugins/glightbox.min.css';
@@ -19,11 +19,29 @@ import {fetchCurrentUser} from "../../features/account/accountSlice";
 import PrivateRoute from "./PrivateRoute";
 import ContactPage from "../../features/contact/ContactPage";
 import ProductDetail from "../../features/Products/ProductDetail";
+import BasketPage from "../../features/basket/BasketPage";
+import {getCookie} from "../util/util";
+import agent from "../api/agent";
+import {setBasket} from "../../features/basket/basketSlice";
 
 
 function App() {
-    const location = useLocation();
-   const dispatch = useAppDispatch();
+   const [loading,setLoading] = useState(true);
+    const dispatch = useAppDispatch();
+
+   useEffect(()=>{
+       const buyerId = getCookie('buyerId');
+       if (buyerId){
+           agent.Basket.get()
+               .then(basket => dispatch(setBasket(basket)))
+               .catch(error => console.log(error))
+               .finally(()=>setLoading(false))
+       }else {
+           setLoading(false)
+       }
+   },[dispatch])
+
+
     useEffect( ()=>{
         dispatch(fetchCurrentUser())
     },[dispatch])
@@ -38,10 +56,11 @@ function App() {
                 <Route path='/about' element={<AboutUsPage/>}/>
                 <Route path='/blog' element={<BlogPage/>}/>
                 <Route path="*" element={<NotFound/>}/>
-                <Route path="/products/detail" element={<ProductDetail/>}/>
+                <Route path="/products/detail/:id" element={<ProductDetail/>}/>
                 <Route path="/login" element={<PrivateRoute><Login/></PrivateRoute>}/>
                 <Route path="/register" element={<PrivateRoute><Register/></PrivateRoute>}/>
                 <Route path="/contact" element={<ContactPage/>}/>
+                <Route path="/basket" element={<BasketPage/>}/>
                 </Routes>
                 <Footer/>
                 </>

@@ -1,47 +1,34 @@
 import React, {useState} from 'react';
-import  cartPhoto from '../../assets/img/product/big-product1.webp';
 import {Link} from "react-router-dom";
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import {Product} from "../../models/Product";
-import agent from "../../App/api/agent";
 import {Button} from "@mui/material";
+import {useAppDispatch, useAppSelector} from "../../store/configureStore";
+import {addBasketItemAsync, setBasket} from "../basket/basketSlice";
 
 interface Props{
     product:Product;
 }
 
 function ProductCard({product}:Props) {
-
+    const {status} = useAppSelector(state=> state.basket);
     const [loading,setLoading] = useState(false);
+    const dispatch = useAppDispatch()
 
-    const handleAddItem = (productId:string)=>{
-        console.log(productId)
-        setLoading(true)
-         agent.Basket.addItem(productId)
-            .catch(error => console.log(error))
-            .finally(()=>setLoading(false))
-    }
 return (
         <>
             <div className="col mb-30">
                 <div className="product__items ">
                     <div className="product__items--thumbnail">
-                        <Link className="product__items--link" to="product-details.html">
-                            <img className="product__items--img product__primary--img"
-                                 src={cartPhoto} alt="product-img"/>
-                                <img className="product__items--img product__secondary--img"
-                                     src={cartPhoto} alt="product-img"/>
+                        <Link className="product__items--link" to={`/products/detail/${product.id}`}>
+                            {/*<img className="product__items--img product__primary--img"*/}
+                            {/*     src={product[0].photoUrl.photoUrl} alt={product.name}/>*/}
+                            {/*<img className="product__items--img product__secondary--img"*/}
+                            {/*     src={product[0].photoUrl.photoUrl} alt={product.name}/>*/}
                         </Link>
                         <div className="product__badge">
                             <span className="product__badge--items sale">New</span>
                         </div>
                         <ul className="product__items--action d-flex justify-content-center">
-                            <li className="product__items--action__list">
-                                <Link className="product__items--action__btn" data-open="modal1" to='ddddd'>
-                                   <VisibilityIcon className="product__items--action__btn--svg"/>
-                                    <span className="visually-hidden">Quick View</span>
-                                </Link>
-                            </li>
                             <li className="product__items--action__list">
                                 <Link className="product__items--action__btn" to="wishlist.html">
                                     <svg  xmlns="http://www.w3.org/2000/svg"
@@ -59,21 +46,21 @@ return (
                         <div className="product__items--color">
                             <ul className="product__items--color__wrapper d-flex justify-content-center">
                                 <li className="product__items--color__list"><Link
-                                    className="product__items--color__link one" to="javascript:void(0)"><span
+                                    className="product__items--color__link one" to="#"><span
                                     className="visually-hidden">Color 1</span></Link></li>
                                 <li className="product__items--color__list"><Link
-                                    className="product__items--color__link two" to="javascript:void(0)"><span
+                                    className="product__items--color__link two" to="#"><span
                                     className="visually-hidden">Color 2</span></Link></li>
                                 <li className="product__items--color__list"><Link
-                                    className="product__items--color__link three" to="javascript:void(0)"><span
+                                    className="product__items--color__link three" to="#"><span
                                     className="visually-hidden">Color 3</span></Link></li>
                                 <li className="product__items--color__list"><Link
-                                    className="product__items--color__link four" to="javascript:void(0)"><span
+                                    className="product__items--color__link four" to="#"><span
                                     className="visually-hidden">Color 3</span></Link></li>
                             </ul>
                         </div>
                         <h3 className="product__items--content__title h4">
-                            <Link to="product-details.html">
+                            <Link to={`/products/detail/${product.id}`}>
                                 {product.name}
                             </Link>
                         </h3>
@@ -82,7 +69,7 @@ return (
                             <span className="old__price">$200.00</span>
                         </div>
                         <div className="product__items--action__cart--btn primary__btn">
-                         <Button onClick={()=> handleAddItem(product.id)}>Add To Basket</Button>
+                         <Button onClick={()=> dispatch(addBasketItemAsync({productId: product.id}))}>Add To Basket</Button>
                         </div>
                     </div>
                 </div>

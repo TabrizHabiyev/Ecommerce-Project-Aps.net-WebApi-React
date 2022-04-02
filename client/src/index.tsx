@@ -11,8 +11,7 @@ const location = window.location.pathname
 
 location.includes('admin')  ?
 ReactDOM.render(
-
-      <BrowserRouter >
+      <BrowserRouter>
           <Provider store={store}>
               <AdminApp/>
           </Provider>
@@ -22,7 +21,7 @@ ReactDOM.render(
 :
 ReactDOM.render(
     <React.StrictMode>
-        <BrowserRouter >
+        <BrowserRouter>
             <Provider store={store}>
                 <App/>
             </Provider>

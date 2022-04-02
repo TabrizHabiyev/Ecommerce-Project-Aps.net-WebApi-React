@@ -1,21 +1,53 @@
-import {
-    Grid ,
-    Typography ,
-    Divider ,
-    TableContainer,
-    Table,TableBody,
-    TableRow,
-    TableCell,
-    TextField,
-    Button
-   } from '@mui/material';
+import {Grid, TextField} from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import './productDetail.css'
 import {Swiper, SwiperSlide} from "swiper/react";
 import SwiperClass,{Navigation,Thumbs} from "swiper";
+import {useParams} from "react-router-dom";
+import {Product} from "../../models/Product";
+import agent from "../../App/api/agent";
+import NotFound from "../404/NotFound";
+import {Button, Form, Input, InputNumber, Space} from "antd";
+import 'antd/dist/antd.css';
+import {useAppDispatch, useAppSelector} from "../../store/configureStore";
+import {addBasketItemAsync, removeBasketItemAsync, setBasket} from "../basket/basketSlice";
 
 function ProductDetail() {
-    const [activeThump,setActiveThumb] = useState<SwiperClass>()
+    const [activeThump,setActiveThumb] = useState<SwiperClass>();
+    const {basket} = useAppSelector(store => store.basket);
+    const dispatch = useAppDispatch();
+
+    const {id} = useParams<{id:string}>();
+    const [product,setProduct] = useState<Product | null>(null)
+    const [loading,setLoading] = useState(true);
+    const [quantity,setQuantity] = useState(0);
+    const productId = product? product[0].id : null;
+    const item = basket?.items.find(i =>i.productId === productId);
+
+    useEffect(()=>{
+        if(item) setQuantity(item.quantity);
+       agent.Product.getProductById(id)
+                .then(response => setProduct(response))
+                .catch(error => console.log(error))
+                .finally(()=> console.log(product))
+    },[id,item])
+
+    const handleInputChange = (event:any)=>{
+        if(event.target.value >= 0){
+            setQuantity(parseInt(event.target.value));
+        }
+    }
+
+    const handleUpdateCart = ()=>{
+        if(!item || quantity > item.quantity){
+            const updateQuantity = item ? quantity - item.quantity :quantity;
+            dispatch(addBasketItemAsync({productId:productId,quantity:updateQuantity}))
+        }else{
+            const updateQuantity = item.quantity - quantity
+            dispatch(removeBasketItemAsync({productId:productId,quantity: updateQuantity}))
+        }
+    }
+    if (!product) return <NotFound/>
     return (
         <div className="productDetailContainer">
             <Grid container spacing={6}>
@@ -29,16 +61,11 @@ function ProductDetail() {
                 grabCursor={true}
                 className="product--image-slider"
                 >
-               <SwiperSlide key='1234'>
-                      <img alt='product name' src='https://res.cloudinary.com/dj3wmuy3l/image/upload/v1648040227/d9wxt9xfuqqz9zxkwpme.jpg'/>
-               </SwiperSlide>
-                <SwiperSlide  key='12345'>
-                    <img alt='product name' src='https://cdn.corporatefinanceinstitute.com/assets/products-and-services.jpeg'/>
-                </SwiperSlide>
-                <SwiperSlide  key='123456'>
-                    <img alt='product name' src='https://i0.wp.com/epthinktank.eu/wp-content/uploads/2021/09/EPRS-Briefing-698028-General-product-safety-regulation-FINAL.png?fit=1000%2C666&ssl=1'/>
-                </SwiperSlide>
-
+                    {product[0].photoUrl.map((item)=>(
+                        <SwiperSlide key={item.publicId}>
+                            <img alt='product name' src={item.photoUrl}/>
+                        </SwiperSlide>
+                    ))}
                 </Swiper>
                     <Swiper
                         loop={true}
@@ -48,35 +75,24 @@ function ProductDetail() {
                         modules={[Navigation,Thumbs]}
                         className="product--image-slider-thumbs"
                     >
-                        <SwiperSlide key='1234'>
-                            <div className="product--image-slider-thumbs-wrapper">
-                            <img alt='product name' src='https://res.cloudinary.com/dj3wmuy3l/image/upload/v1648040227/d9wxt9xfuqqz9zxkwpme.jpg'/>
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide  key='12345'>
-                            <div className="product--image-slider-thumbs-wrapper">
-                            <img alt='product name' src='https://cdn.corporatefinanceinstitute.com/assets/products-and-services.jpeg'/>
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide  key='123456'>
-                            <div className="product--image-slider-thumbs-wrapper">
-                            <img alt='product name' src='https://i0.wp.com/epthinktank.eu/wp-content/uploads/2021/09/EPRS-Briefing-698028-General-product-safety-regulation-FINAL.png?fit=1000%2C666&ssl=1'/>
-                            </div>
-                        </SwiperSlide>
+                        {product[0].photoUrl.map((item)=>(
+                            <SwiperSlide key={item.publicId}>
+                                <div className="product--image-slider-thumbs-wrapper">
+                                    <img alt='product name' src={item.photoUrl}/>
+                                </div>
+                            </SwiperSlide>
+                        ))}
                     </Swiper>
                 </Grid>
                 <Grid item xs={6}>
                     <div className="product__details--info">
-                        <form action="#">
-                            <h2 className="product__details--info__title mb-15">Fashion Plastic Chair</h2>
+                            <h2 className="product__details--info__title mb-15">{product[0].name}</h2>
                             <div className="product__details--info__price mb-10">
                                 <span className="current__price">$299.00</span>
                                 <span className="old__price">$320.00</span>
                             </div>
-                            <p className="product__details--info__desc mb-20">Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Aut numquam ullam is recusandae laborum explicabo id sequi quisquam,
-                                ab sunt deleniti quidem ea animi facilis quod nostrum odit! Repellendus voluptas
-                                suscipit.</p>
+                            <p className="product__details--info__desc mb-20">{product[0].description}
+                            </p>
                             <div className="product__variant">
                                 <div className="product__variant--list mb-20">
                                     <fieldset className="variant__input--fieldset">
@@ -95,25 +111,32 @@ function ProductDetail() {
                                                 color 4
                                             </div>
                                         </div>
-                                    </fieldset>
+                                    </fieldset><br/>
+                                    <div className="product__variant--list mb-15">
+                                        <div className="product__details--info__meta">
+                                            <p className="product__details--info__meta--list"><strong>Type: </strong>
+                                                <span>{product[0].type}</span></p>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className="product__variant--list quantity d-flex align-items-center mb-20">
                                     <div className="quantity__box">
-                                        <button type="button"
-                                                className="quantity__value quickview__value--quantity decrease"
-                                                aria-label="quantity value" value="Decrease Value">-
-                                        </button>
-                                        <label>
-                                            <input type="number" className="quantity__number quickview__value--number"
-                                                   value="1"/>
-                                        </label>
-                                        <button type="button"
-                                                className="quantity__value quickview__value--quantity increase"
-                                                aria-label="quantity value" value="Increase Value">+
-                                        </button>
+                                      <TextField
+                                            onChange={handleInputChange}
+                                            variant='outlined'
+                                            type='number'
+                                            label='Quantity in cart'
+                                            fullWidth
+                                            value={quantity}
+                                      />
                                     </div>
-                                    <button className="quickview__cart--btn primary__btn" type="submit">Add To Cart
-                                    </button>
+                                    <Button
+                                        onClick={handleUpdateCart}
+                                        disabled={item?.quantity === quantity || !item && quantity ===0}
+                                        type="primary"
+                                        className="quickview__cart--btn primary__btn">
+                                        {item ? 'Update Quantity' : 'Add to Card'}
+                                    </Button>
                                 </div>
                                 <div className="product__variant--list mb-15">
                                     <a className="variant__wishlist--icon mb-15" href="wishlist.html"
@@ -127,17 +150,11 @@ function ProductDetail() {
                                         </svg>
                                         Add to Wishlist
                                     </a>
-                                    <button className="variant__buy--now__btn primary__btn" type="submit">Buy it now
+                                    <button className="variant__buy--now__btn primary__btn" type="submit">
+                                        Buy it now
                                     </button>
                                 </div>
-                                <div className="product__variant--list mb-15">
-                                    <div className="product__details--info__meta">
-                                        <p className="product__details--info__meta--list"><strong>Type:</strong>
-                                            <span>Sofa</span></p>
-                                    </div>
-                                </div>
                             </div>
-                        </form>
                     </div>
                 </Grid>
             </Grid>
@@ -181,7 +198,6 @@ function ProductDetail() {
                         </div>
                     </div>
                     <div id="writereview" className="reviews__comment--reply__area">
-                        <form action="#">
                             <h3 className="reviews__comment--reply__title mb-15">Add a review </h3>
                             <div className="row">
                                 <div className="col-12 mb-10">
@@ -191,7 +207,6 @@ function ProductDetail() {
                             </div>
                             <button className="text-white primary__btn" data-hover="Submit" type="submit">SUBMIT
                             </button>
-                        </form>
                     </div>
                 </div>
             </div>
