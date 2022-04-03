@@ -101,6 +101,10 @@ namespace E_Commerce_API.Persistence
             services.AddScoped<IOrderReadRepository, OrderReadRepository>();
             services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
             #endregion
+            #region Dependency Injection Order service
+            services.AddScoped<IOrderReadRepository, OrderReadRepository>();
+            services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
+            #endregion
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿using E_Commerce_API.Domain.Entites;
 using E_Commerce_API.Domain.Entites.Common;
 using E_Commerce_API.Domain.Entites.OrderAggregate;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +27,8 @@ namespace E_Commerce_API.Persistence.Contexts
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+
             builder.Entity<AppUser>()
                  .HasOne(a => a.Address)
                  .WithOne()

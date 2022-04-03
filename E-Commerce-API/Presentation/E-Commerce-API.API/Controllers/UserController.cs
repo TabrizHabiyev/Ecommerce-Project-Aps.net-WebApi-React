@@ -14,11 +14,11 @@ namespace E_Commerce_API.API.Controllers
     {
         private readonly IConfiguration _config;
         private readonly UserManager<AppUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly ITokenServiceRepository _tokenService;
         private readonly IMapper _mapper;
 
-        public UserController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper, IConfiguration config, ITokenServiceRepository tokenService)
+        public UserController(UserManager<AppUser> userManager, RoleManager<Role> roleManager, IMapper mapper, IConfiguration config, ITokenServiceRepository tokenService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -49,15 +49,13 @@ namespace E_Commerce_API.API.Controllers
             {
 
                 var token = _tokenService.GenerateToken(user);
-                var userRole = _roleManager.FindByIdAsync(user.Id);
+                var userRole = _roleManager.FindByIdAsync(user.Id.ToString());
                 return Ok(
                 new LoginRespenseDto
                 {
                     Status = "200",
-                    Message = $"User with the username {user.Name + user.Surname} has successfully logged in!",
+                    Message = $"User successfully logged in!",
                     Token = await token,
-                    Name = user.Name,
-                    Surname = user.Surname,
                     Username = user.UserName,
                 });
             }
@@ -106,17 +104,5 @@ namespace E_Commerce_API.API.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task CreateRole()
-        {
-            if (!await _roleManager.RoleExistsAsync("Admin"))
-            {
-                await _roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
-            }
-            if (!await _roleManager.RoleExistsAsync("Member"))
-            {
-                await _roleManager.CreateAsync(new IdentityRole { Name = "Member" });
-            }
-        }
     }
 }

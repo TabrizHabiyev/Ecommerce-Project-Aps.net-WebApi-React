@@ -7,7 +7,6 @@ using E_Commerce_API.Domain.Entites;
 using E_Commerce_API.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
 
 namespace E_Commerce_API.API.Controllers
 {

@@ -9,12 +9,13 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     options.JsonSerializerOptions.WriteIndented = true;
 });
-
 builder.Services.AddPersistenceServices();
 builder.Services.AddEndpointsApiExplorer();
+
+#region Enable Authorization using Swagger (JWT)
 builder.Services.AddSwaggerGen(swagger =>
 {
-    #region Enable Authorization using Swagger (JWT)
+    swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "Api"});
     swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
         Name = "Authorization",
@@ -24,8 +25,27 @@ builder.Services.AddSwaggerGen(swagger =>
         In = ParameterLocation.Header,
         Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
     });
-    #endregion
+
+    swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                },
+                Scheme = "oauth2",
+                Name = "Bearer",
+                In = ParameterLocation.Header
+            },
+            new List<string>()
+        }
+    }) ;
+   
 });
+#endregion
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

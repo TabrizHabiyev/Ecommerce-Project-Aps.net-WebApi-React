@@ -1,13 +1,9 @@
-﻿using E_Commerce_API.Application.Dto.UserDto;
-using E_Commerce_API.Application.Repositories;
+﻿using E_Commerce_API.Application.Repositories;
 using E_Commerce_API.Domain.Entites;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
@@ -28,7 +24,7 @@ namespace E_Commerce_API.Persistence.Repositories
             var claims = new List<Claim>
             {
               new Claim (ClaimTypes.Email,user.Email),
-              new Claim(ClaimTypes.Sid, user.Id)
+              new Claim(ClaimTypes.Sid, user.Id.ToString())
             };
 
             var roles = await _userManager.GetRolesAsync(user);
