@@ -2,6 +2,8 @@ import {User} from "../../models/user";
 import {createAsyncThunk, createSlice, isAnyOf} from "@reduxjs/toolkit";
 import {FieldValues, useForm} from "react-hook-form";
 import agent from "../../App/api/agent";
+import {setBasket} from "../basket/basketSlice";
+
 interface AccountState{
     user:User | null
 }
@@ -14,7 +16,9 @@ export const signInUser = createAsyncThunk<User,FieldValues>(
     'account/signInUser',
     async (data,thunkAPI)=>{
         try {
-            const user = await agent.Account.login(data);
+            const userDto = await agent.Account.login(data);
+            const {basket,...user} = userDto;
+            if(basket) thunkAPI.dispatch(setBasket(basket));
             localStorage.setItem('user',JSON.stringify(user))
             return user;
         }catch (error:any) {
@@ -25,19 +29,21 @@ export const signInUser = createAsyncThunk<User,FieldValues>(
 
 export const fetchCurrentUser = createAsyncThunk<User>(
     'account/fetchCurrentUser',
-    async (_,thunkAPI)=>{
-        thunkAPI.dispatch(setUser(JSON.parse(localStorage.getItem('user')!)))
+    async (_, thunkAPI) => {
+        thunkAPI.dispatch(setUser(JSON.parse(localStorage.getItem('user')!)));
         try {
-            const user = await agent.Account.currentUser();
-            localStorage.setItem('user',JSON.stringify(user))
+            const userDto = await agent.Account.currentUser();
+            const {basket, ...user} = userDto;
+            if (basket) thunkAPI.dispatch(setBasket(basket));
+            localStorage.setItem('user', JSON.stringify(user));
             return user;
-        }catch (error:any) {
-            return thunkAPI.rejectWithValue({error:error.data})
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue({error: error.data});
         }
     },
     {
-        condition:()=>{
-            if (!localStorage.getItem('user'))return false
+        condition: () => {
+            if (!localStorage.getItem('user')) return false;
         }
     }
 )
@@ -63,5 +69,4 @@ export const  accountSlice = createSlice({
         })
     })
 })
-
 export const  {signOut,setUser} = accountSlice.actions;

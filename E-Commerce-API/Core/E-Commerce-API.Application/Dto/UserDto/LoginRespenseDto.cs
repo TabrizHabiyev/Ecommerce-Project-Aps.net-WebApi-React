@@ -1,4 +1,6 @@
 ﻿
+using E_Commerce_API.Application.Dto.Basket;
+
 namespace E_Commerce_API.Application.Dto.UserDto
 {
     public class LoginRespenseDto:ResponseDto
@@ -9,5 +11,6 @@ namespace E_Commerce_API.Application.Dto.UserDto
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Username { get; set; }
+        public BasketDto Basket { get; set; } 
     }
 }

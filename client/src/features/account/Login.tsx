@@ -12,7 +12,6 @@ import {FieldValues, useForm} from "react-hook-form";
 import {useAppDispatch} from "../../store/configureStore";
 import {signInUser} from "./accountSlice";
 import Avatar from "@mui/material/Avatar";
-import {message} from "antd";
 
 const theme = createTheme();
 
@@ -23,9 +22,14 @@ export default function Login() {
     const {register,handleSubmit,setError,formState:{isSubmitting,errors,isValid}} = useForm({});
     
   async function submitForm(data:FieldValues) {
-      await dispatch(signInUser(data));
-       if (!errors)
-           navigate('/')
+      try {
+          await dispatch(signInUser(data));
+          if (!errors)
+              navigate('/')
+      }catch (error){
+          console.log(error)
+      }
+
   }
     return (
         <ThemeProvider theme={theme}>

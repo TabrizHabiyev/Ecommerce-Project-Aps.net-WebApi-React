@@ -8,23 +8,12 @@ const sleep = () => new Promise(resolve => setTimeout(resolve, 500));
 axios.defaults.baseURL = 'http://localhost:5029/api/';
 axios.defaults.withCredentials = true;
 const responseBody = (response: AxiosResponse) => response.data;
-let user = localStorage.getItem('user');
-if (user) {
-    axios.interceptors.request.use((config) => {
-    let token = store.getState().account.user?.token;
-    if(token){
-        return {
-            ...config,
-            headers: {
-                ...config.headers,
-                'Authorization': `Bearer ${token}`
-            }
-        }
-    }
-}, (error) => {
-    return Promise.reject(error);
-});
-}
+
+axios.interceptors.request.use((config:any) => {
+    const token = store.getState().account.user?.token;
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+})
 axios.interceptors.response.use(async response=>{
     await sleep()
     const pagination = response.headers['pagination'];
@@ -118,12 +107,20 @@ const Account = {
     login:(value:any) => requests.post('user/login',value),
     register:(value:any) => requests.post('user/register',value),
     currentUser:() => requests.get('account/profile'),
+    fetchAddress:()=> requests.get('User/GetSavedAddress')
 }
 
-const Basket ={
+const Basket = {
     get:()=> requests.get('basket'),
     addItem:(productId:string,quantity =1)=>requests.post(`basket?productId=${productId}&quantity=${quantity}`,{}),
     removeItem:(productId:string,quantity =1)=>requests.delete(`basket?productId=${productId}&quantity=${quantity}`),
+}
+
+
+const Order = {
+    list: () => requests.get('order'),
+    ById:(id:string) => requests.get(`orders/${id}`),
+    create:(values:any) => requests.post('order',values),
 }
 
 const agent ={
@@ -132,7 +129,8 @@ const agent ={
     Product,
     Category,
     ProductPhoto,
-    Basket
+    Basket,
+    Order
 }
 
 export default agent

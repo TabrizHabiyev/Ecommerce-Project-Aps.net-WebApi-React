@@ -23,6 +23,7 @@ import BasketPage from "../../features/basket/BasketPage";
 import {getCookie} from "../util/util";
 import agent from "../api/agent";
 import {setBasket} from "../../features/basket/basketSlice";
+import CheckoutMainPage from "../../features/checkout/CheckoutMainPage";
 
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
                 <Route path="/register" element={<PrivateRoute><Register/></PrivateRoute>}/>
                 <Route path="/contact" element={<ContactPage/>}/>
                 <Route path="/basket" element={<BasketPage/>}/>
+                <Route path="/checkout" element={<CheckoutMainPage/>}/>
                 </Routes>
                 <Footer/>
                 </>

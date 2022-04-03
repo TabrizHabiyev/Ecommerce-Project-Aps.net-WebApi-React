@@ -4,7 +4,6 @@ import ClearIcon from '@mui/icons-material/Clear';
 import {useAppDispatch, useAppSelector} from "../../store/configureStore";
 import {addBasketItemAsync, removeBasketItemAsync} from "./basketSlice";
 
-
 function BasketPage() {
 
    const {basket,status} = useAppSelector(state=>state.basket)
@@ -96,7 +95,7 @@ function BasketPage() {
                                     <div className="cart__summary--footer">
                                         <p className="cart__summary--footer__desc">Shipping & taxes calculated at checkout</p>
                                         <ul className="d-flex justify-content-between">
-                                            <li><Link className="cart__summary--footer__btn primary__btn checkout" to='checkout'>Check Out</Link></li>
+                                            <li><Link className="cart__summary--footer__btn primary__btn checkout" to='/checkout'>Check Out</Link></li>
                                         </ul>
                                     </div>
                                 </div>

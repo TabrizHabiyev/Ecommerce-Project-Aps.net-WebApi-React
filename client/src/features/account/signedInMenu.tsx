@@ -7,6 +7,7 @@ import {useAppDispatch, useAppSelector} from "../../store/configureStore";
 import {signOut} from "./accountSlice";
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
+import {clearBasket} from "../basket/basketSlice";
 export default function SignedInMenu() {
     const dispatch = useAppDispatch();
     const {user} = useAppSelector(state => state.account);
@@ -23,7 +24,7 @@ export default function SignedInMenu() {
         <>
             <Button onClick={handleClick}>
                 <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
-                <Typography sx={{ minWidth: 100 }}> {user?.name} {user?.surname}</Typography>
+                <Typography sx={{ minWidth: 100 }}> Tabriz Ad qoy bura</Typography>
             </Button>
             <Menu
                 anchorEl={anchorEl}
@@ -33,7 +34,10 @@ export default function SignedInMenu() {
             >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={()=>dispatch(signOut())}>Logout</MenuItem>
+                <MenuItem onClick={() => {
+                    dispatch(signOut());
+                    dispatch(clearBasket());
+                }}>Logout</MenuItem>
             </Menu>
         </>
     )

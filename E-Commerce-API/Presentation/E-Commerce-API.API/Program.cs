@@ -42,7 +42,7 @@ builder.Services.AddSwaggerGen(swagger =>
             },
             new List<string>()
         }
-    }) ;
+    });
    
 });
 #endregion

@@ -100,8 +100,9 @@ namespace E_Commerce_API.API.Controllers
 
             if (orderDto.SaveAdress)
             {
-                var user =await _userManager.FindByIdAsync(userId);
-                user.Address = new UserAddress
+                var user = await _userManager.Users.Include(a => a.Address)
+                   .FirstOrDefaultAsync(x => x.Id == Guid.Parse(userId));
+                var adress  = new UserAddress
                 {
                     FullName = orderDto.ShippingAdress.FullName,
                     Adress1 = orderDto.ShippingAdress.Adress1,
@@ -111,25 +112,14 @@ namespace E_Commerce_API.API.Controllers
                     Zip = orderDto.ShippingAdress.Zip,
                     Country = orderDto.ShippingAdress.Country,
                 };
-               await  _userManager.UpdateAsync(user);
+                user.Address = adress;
+                
             }
            var result = await _orderWrite.SaveAsync();
 
             if (result > 0) return CreatedAtRoute("GetOrder", new { id = order.Id }, order.Id);
 
             return BadRequest("Problem Creating Order");
-        }
-
-        // PUT api/<OrderController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<OrderController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

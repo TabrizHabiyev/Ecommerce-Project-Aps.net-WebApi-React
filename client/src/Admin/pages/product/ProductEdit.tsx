@@ -306,7 +306,7 @@ function ProductEdit() {
                                         />
                                         <br/>
                                     </Grid>
-                                    {data.campaignId !== null && applydiscount === true?
+                                    {data.campaignId === !null ?
                                         <>
                                             <Grid item xs={7} sm={3}>
                                                 <FormControl sx={{minWidth: 120}}>

@@ -1,7 +1,7 @@
+import {Basket} from "./Basket";
 
 export interface User{
     email:string;
     token:string;
-    name:string;
-    surname:string;
+    basket?:Basket
 }
