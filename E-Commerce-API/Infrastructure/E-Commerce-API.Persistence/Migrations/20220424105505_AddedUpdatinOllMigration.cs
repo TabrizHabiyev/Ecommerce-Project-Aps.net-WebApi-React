@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace E_Commerce_API.Persistence.Migrations
 {
-    public partial class addAllEntityChanged : Migration
+    public partial class AddedUpdatinOllMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -58,6 +58,8 @@ namespace E_Commerce_API.Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     BuyerId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PaymentIntentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClientSecret = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -138,6 +140,7 @@ namespace E_Commerce_API.Persistence.Migrations
                     Discount = table.Column<double>(type: "float", nullable: false),
                     Cupon = table.Column<double>(type: "float", nullable: false),
                     OrderStatus = table.Column<int>(type: "int", nullable: false),
+                    PaymentIntentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -454,12 +457,12 @@ namespace E_Commerce_API.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { new Guid("d28319b3-eb6a-4f03-a3e2-7926a8ad70a6"), "ef656cc1-c2cf-45e2-b088-85ec7c06791f", "Member", "MEMBER" });
+                values: new object[] { new Guid("6b545b0f-4fa9-42b3-a1f6-75960f2e9a6d"), "40e419eb-5721-4530-b492-834c72059f5d", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { new Guid("ef990f92-55c4-4c7a-bc08-17748e20cd1e"), "e1a318c5-8ccc-4be6-9ecb-c97e231c7928", "Admin", "ADMIN" });
+                values: new object[] { new Guid("eb0c9fa8-bbba-4a23-aa19-7a18579c9a2b"), "5b00da54-9c8b-4484-99f1-39dee1e72b0b", "Member", "MEMBER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

@@ -116,6 +116,9 @@ const Basket = {
     removeItem:(productId:string,quantity =1)=>requests.delete(`basket?productId=${productId}&quantity=${quantity}`),
 }
 
+const Payments ={
+    createPayment:()=> requests.post('Payment/CreateOrUpdatePaymentIntent',{})
+}
 
 const Order = {
     list: () => requests.get('order'),
@@ -130,7 +133,8 @@ const agent ={
     Category,
     ProductPhoto,
     Basket,
-    Order
+    Order,
+    Payments
 }
 
 export default agent

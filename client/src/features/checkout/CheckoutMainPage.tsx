@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../store/configureStore";
 import CheckoutPage from "./CheckoutPage";
+import CheckoutWraper from "./CheckoutWraper";
 
 function CheckoutMainPage() {
     const {basket,status} = useAppSelector(state=>state.basket)
@@ -14,7 +15,7 @@ function CheckoutMainPage() {
                 <div className="row">
                     <div className="col-lg-7 col-md-6">
                         <div className="main checkout__mian">
-                          <CheckoutPage/>
+                          <CheckoutWraper/>
                         </div>
                     </div>
                     <div className="col-lg-5 col-md-6">

@@ -93,6 +93,7 @@ namespace E_Commerce_API.API.Controllers
                 BuyerId = Guid.Parse(userId),
                 ShippingAddress = orderDto.ShippingAdress,
                 SubTotal = subtotal,
+                PaymentIntentId = basket.PaymentIntentId
             };
 
             await _orderWrite.AddAsync(order);

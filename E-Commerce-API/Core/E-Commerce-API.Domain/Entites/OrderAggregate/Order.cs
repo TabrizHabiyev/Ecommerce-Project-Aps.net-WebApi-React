@@ -13,6 +13,7 @@ namespace E_Commerce_API.Domain.Entites.OrderAggregate
         public double Discount { get; set; }
         public double Cupon { get; set; }
         public OrderStatus OrderStatus { get; set; } = OrderStatus.Panding;
+        public string PaymentIntentId { get; set; }
         public double GetTotal()
         {
             return SubTotal - Discount - Cupon;

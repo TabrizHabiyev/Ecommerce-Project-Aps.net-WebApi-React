@@ -15,14 +15,14 @@ namespace E_Commerce_API.API.Controllers
         private readonly IBasketWriteRepository _basketWrite;
         private readonly IProductReadRepository _productRead;
         private readonly IProductPhotoReadRepository _productPhotoRead;
-        public BasketController(IBasketReadRepository basketRead, IBasketWriteRepository basketWrite, IBasketItemReadRepository basketItemRead, IBasketItemWriteRepository basketItemWrite, IProductReadRepository productRead, IProductPhotoReadRepository productPhotoRead)
+
+        public BasketController(IBasketReadRepository basketRead, IBasketWriteRepository basketWrite, IProductReadRepository productRead, IProductPhotoReadRepository productPhotoRead)
         {
             _basketRead = basketRead;
             _basketWrite = basketWrite;
             _productRead = productRead;
             _productPhotoRead = productPhotoRead;
         }
-
 
         [HttpGet(Name ="GetBasket")]
         public async Task<ActionResult<BasketDto>>  GetBasket()
@@ -74,7 +74,7 @@ namespace E_Commerce_API.API.Controllers
                 return null;
             }
 
-            return _basketRead.GetAll()
+            return   _basketRead.GetAll()
                 .Include(i => i.Items)
                 .ThenInclude(p => p.Product)
                 .FirstOrDefault(x => x.BuyerId ==  buyerId);

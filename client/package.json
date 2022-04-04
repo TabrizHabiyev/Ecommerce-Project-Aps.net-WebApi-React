@@ -16,6 +16,8 @@
     "@pandemicode/material-ui-dropzone": "^3.5.5",
     "@pathofdev/react-tag-input": "^1.0.7",
     "@reduxjs/toolkit": "^1.8.0",
+    "@stripe/react-stripe-js": "^1.7.2",
+    "@stripe/stripe-js": "^1.29.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",

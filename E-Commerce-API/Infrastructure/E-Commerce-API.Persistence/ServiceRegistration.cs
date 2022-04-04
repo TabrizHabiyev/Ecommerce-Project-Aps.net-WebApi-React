@@ -13,6 +13,8 @@ using E_Commerce_API.Persistence.Concretes;
 using E_Commerce_API.Infrastructure.Interfaces;
 using E_Commerce_API.Infrastructure.ImageService;
 using E_Commerce_API.Persistence.Concretes.ProductColor;
+using E_Commerce_API.Infrastructure.Interfaces.PymentService;
+using E_Commerce_API.Infrastructure.PaymetServices;
 
 namespace E_Commerce_API.Persistence
 {
@@ -105,6 +107,11 @@ namespace E_Commerce_API.Persistence
             services.AddScoped<IOrderReadRepository, OrderReadRepository>();
             services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
             #endregion
+
+            #region Dependency Injection Payment service
+            services.AddScoped<IstripePaymentService, StripePaymentService>();
+            #endregion
+
         }
 
     }

@@ -111,8 +111,16 @@ namespace E_Commerce_API.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ClientSecret")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentIntentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime2");
@@ -288,6 +296,10 @@ namespace E_Commerce_API.Persistence.Migrations
 
                     b.Property<int>("OrderStatus")
                         .HasColumnType("int");
+
+                    b.Property<string>("PaymentIntentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("SubTotal")
                         .HasColumnType("float");
@@ -465,15 +477,15 @@ namespace E_Commerce_API.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d28319b3-eb6a-4f03-a3e2-7926a8ad70a6"),
-                            ConcurrencyStamp = "ef656cc1-c2cf-45e2-b088-85ec7c06791f",
+                            Id = new Guid("eb0c9fa8-bbba-4a23-aa19-7a18579c9a2b"),
+                            ConcurrencyStamp = "5b00da54-9c8b-4484-99f1-39dee1e72b0b",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
-                            Id = new Guid("ef990f92-55c4-4c7a-bc08-17748e20cd1e"),
-                            ConcurrencyStamp = "e1a318c5-8ccc-4be6-9ecb-c97e231c7928",
+                            Id = new Guid("6b545b0f-4fa9-42b3-a1f6-75960f2e9a6d"),
+                            ConcurrencyStamp = "40e419eb-5721-4530-b492-834c72059f5d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
