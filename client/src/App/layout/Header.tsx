@@ -1,11 +1,8 @@
 import React from 'react';
 import logo from  '../../assets/img/logo/nav-log.webp';
 import {Link} from 'react-router-dom';
-import App from "./App";
-import AdvancedSearch from "../../features/search-component/AdvancedSearch";
 import {useAppSelector} from "../../store/configureStore";
 import SignedInMenu from "../../features/account/signedInMenu";
-import {useStoreContext} from "../../context/StroreContext";
 
 const Links=[
     {title:'Home', path:'/'},
@@ -73,7 +70,6 @@ export default function Header() {
                   </div>
               </div>
           </div>
-          <AdvancedSearch/>
       </React.Fragment>
 
     );

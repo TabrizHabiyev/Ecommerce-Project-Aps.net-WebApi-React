@@ -16,10 +16,9 @@ import {useEffect, useState} from "react";
 import agent from "../../App/api/agent";
 import {useAppDispatch, useAppSelector} from "../../store/configureStore";
 import {clearBasket} from "../basket/basketSlice";
-import Review from "./Review";
 import {StripeElementType} from "@stripe/stripe-js";
 import {CardNumberElement, useElements, useStripe} from "@stripe/react-stripe-js";
-const steps = ['Shipping address', 'Payment details', 'Review your order'];
+const steps = ['Shipping address', 'Payment details'];
 
 
 
@@ -57,8 +56,6 @@ export default function CheckoutPage() {
                 return <AddressForm />;
             case 1:
                 return <PaymentForm cardState={cardState} onCartInputChange={onCardInputChange} />;
-            case 2:
-                return <Review/>;
             default:
                 throw new Error('Unknown step');
         }
@@ -93,7 +90,7 @@ export default function CheckoutPage() {
                    }
                }
            });
-           if(paymentsResult.paymentIntent?.status == 'succeeded'){
+           if(paymentsResult.paymentIntent?.status === 'succeeded'){
                const orderNumber =await  agent.Order.create({saveAddress,shippingAdress})
                setOrderNumber(orderNumber);
                setPaymentSucceeded(true)
@@ -113,12 +110,25 @@ export default function CheckoutPage() {
         }
     }
 
+    function submitDisabled(): boolean {
+        if (activeStep === steps.length) {
+            return !cardComplete.cardCvc
+                || !cardComplete.cardExpiry
+                || !cardComplete.cardNumber
+                || !methods.formState.isValid
+        } else {
+            return !methods.formState.isValid
+        }
+    }
 
     const handleNext = async (data:FieldValue<any>) => {
-        if(activeStep === steps.length-2){
+        if(activeStep === steps.length-1){
             await  submitOrder(data);
+            console.log("salam")
         }else{
             setActiveStep(activeStep + 1);
+            console.log("salam",steps.length,activeStep)
+
         }
     };
 
@@ -126,17 +136,6 @@ export default function CheckoutPage() {
         setActiveStep(activeStep - 1);
 
     };
-
-    function submitDisabled():boolean{
-        if(activeStep == steps.length -1){
-            return !cardComplete.cardCvc
-                || !cardComplete.cardExpiry
-                || !cardComplete.cardNumber
-                || !methods.formState.isValid
-        }else {
-            return !methods.formState.isValid
-        }
-    }
 
     return (
         <>
@@ -154,7 +153,7 @@ export default function CheckoutPage() {
                         ))}
                     </Stepper>
                     <React.Fragment>
-                        {activeStep === steps.length ? (
+                        {activeStep === 2 ? (
                             <React.Fragment>
                                 <Typography variant="h5" gutterBottom>
                                     {paymentMessage}
@@ -184,8 +183,10 @@ export default function CheckoutPage() {
                                         type='submit'
                                         sx={{ mt: 3, ml: 1 }}
                                     >
-                                        {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                                        {activeStep === steps.length -1 ? 'Place order' : 'Next'}
                                     </Button>
+                                    <h1>{activeStep}</h1>
+                                    <h1>{steps.length-1}</h1>
                                 </Box>
                             </form>
                         )}

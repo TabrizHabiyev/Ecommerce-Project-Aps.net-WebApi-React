@@ -6,24 +6,21 @@ import  img1 from  '../../assets/img/slider/home1-slider1.webp';
 import  img2 from  '../../assets/img/slider/home1-slider2.webp';
 import  img3 from  '../../assets/img/slider/home1-slider3.webp';
 
-import ProductCard from "../Products/ProductCard";
-import {Link} from "react-router-dom";
-
 const loop =[1,2,3,4,5]
 
 const slider=[
     {
-        title:'Stylish Furniture Bring Beauti',
+        title:'Slider 1 Title loremipsum',
         description:'Great furniture can bring beauty at your home, So buy our popular',
         imageUrl:`${img1}`
     },
     {
-        title:'Stylish Furniture Bring Beauti',
+        title:'Slider 2 Title loremipsum',
         description:'Great furniture can bring beauty at your home, So buy our popular',
         imageUrl:`${img2}`
     },
     {
-        title:'Stylish Furniture Bring Beauti',
+        title:'Slider 3 Title loremipsum',
         description:'Great furniture can bring beauty at your home, So buy our popular',
         imageUrl:`${img3}`
     }
@@ -46,7 +43,7 @@ function HomeSlider() {
                 modules={[Keyboard, Pagination, Navigation]}
                >
                 {slider.map(({title,description,imageUrl})=>(
-                    <SwiperSlide>
+                    <SwiperSlide key={title}>
                         <div className="swiper-slide ">
                             <div className="hero__slider--items slider1"  style={{
                                 backgroundImage: `url(${imageUrl})`

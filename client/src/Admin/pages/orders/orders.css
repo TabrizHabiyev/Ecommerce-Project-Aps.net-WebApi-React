@@ -1,0 +1,18 @@
+.orderList{
+    flex: 4;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.orderFileds{
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.orderContainer{
+    margin-top: 10px;
+    border-radius: 3%;
+    -webkit-box-shadow: -3px 2px 16px 0px rgba(152, 162, 160, 0.75);
+    box-shadow: -3px 2px 16px 0px rgba(128, 140, 136, 0.75);
+}

@@ -16,13 +16,13 @@ function InstagramSingle() {
                                         <defs>
                                         <radialGradient cx="0.133" cy="1.005" r="1.305" gradientTransform="translate(0)"
                                                         gradientUnits="objectBoundingBox">
-                                            <stop offset="0.09" stop-color="#fa8f21"/>
-                                            <stop offset="0.78" stop-color="#d82d7e"/>
+                                            <stop offset="0.09" stopColor="#fa8f21"/>
+                                            <stop offset="0.78" stopColor="#d82d7e"/>
                                         </radialGradient>
                                         <radialGradient cx="0.606" cy="1.05" r="1.029" gradientTransform="translate(0)"
                                                         gradientUnits="objectBoundingBox">
-                                            <stop offset="0.64" stop-color="#8c3aaa" stop-opacity="0"/>
-                                            <stop offset="1" stop-color="#8c3aaa"/>
+                                            <stop offset="0.64" stopColor="#8c3aaa" stopOpacity="0"/>
+                                            <stop offset="1" stopColor="#8c3aaa"/>
                                         </radialGradient>
                                         </defs>
                                         <path data-name="Path 145"

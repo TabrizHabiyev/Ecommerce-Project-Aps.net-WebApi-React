@@ -24,6 +24,7 @@ import {getCookie} from "../util/util";
 import agent from "../api/agent";
 import {setBasket} from "../../features/basket/basketSlice";
 import CheckoutMainPage from "../../features/checkout/CheckoutMainPage";
+import Profile from "../../features/account/Profile";
 
 
 function App() {
@@ -63,10 +64,10 @@ function App() {
                 <Route path="/contact" element={<ContactPage/>}/>
                 <Route path="/basket" element={<BasketPage/>}/>
                 <Route path="/checkout" element={<CheckoutMainPage/>}/>
+                <Route path="/profile" element={<Profile/>}/>
                 </Routes>
                 <Footer/>
                 </>
     );
 }
-
 export default App;

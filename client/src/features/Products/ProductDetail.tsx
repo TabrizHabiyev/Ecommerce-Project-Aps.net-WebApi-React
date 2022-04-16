@@ -1,4 +1,4 @@
-import {Grid, TextField} from '@mui/material';
+import {Grid, TextareaAutosize, TextField} from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import './productDetail.css'
 import {Swiper, SwiperSlide} from "swiper/react";
@@ -10,6 +10,9 @@ import 'antd/dist/antd.css';
 import {useAppDispatch, useAppSelector} from "../../store/configureStore";
 import {addBasketItemAsync, removeBasketItemAsync} from "../basket/basketSlice";
 import {fetchProductAsync, productSelectors} from "./productSlice";
+import agent from "../../App/api/agent";
+import {useForm} from "react-hook-form";
+import {toast, ToastContainer} from "react-toastify";
 
 function ProductDetail() {
     const [activeThump,setActiveThumb] = useState<SwiperClass>();
@@ -21,6 +24,16 @@ function ProductDetail() {
     const [quantity,setQuantity] = useState(0);
     let item;
     if (product) item = basket?.items.find(i => i.productId === product.id);
+     
+    const [comment,setComment] = useState<any[]>([]);
+
+    const {register,handleSubmit,setError,formState:{isSubmitting,errors,isValid}} = useForm({mode:'all'});
+    const [submit,setSubmit] = useState(true);
+    useEffect(()=>{
+        agent.Comment.ById(id).then((data)=>{
+            setComment(data)
+        })
+    },[submit])
 
 
     useEffect(()=>{
@@ -49,7 +62,7 @@ function ProductDetail() {
             }
         }
     }
-    if (productStatus.includes('pending')) return <h1>yuklenir .....</h1>
+    if (productStatus.includes('pending')) return <h1>Loading .....</h1>
     if (!product) return <NotFound/>
     return (
         <div className="productDetailContainer">
@@ -176,44 +189,49 @@ function ProductDetail() {
                         <a className="actions__newreviews--btn primary__btn" href="#writereview">Write A Review</a>
                     </div>
                     <div className="reviews__comment--area">
-                        <div className="reviews__comment--list d-flex">
-                            <div className="reviews__comment--thumbnail">
-                                <img src="assets/img/other/comment-thumb1.webp" alt="comment-thumbnail"/>
-                            </div>
-                            <div className="reviews__comment--content">
-                                <h4 className="reviews__comment--content__title">Richard Smith</h4>
-                                <p className="reviews__comment--content__desc">Lorem ipsum, dolor sit amet consectetur
-                                    adipisicing elit. Eos ex repellat officiis neque. Veniam, rem nesciunt. Assumenda
-                                    distinctio, autem error repellat eveniet ratione dolor facilis accusantium amet
-                                    pariatur, non eius!</p>
-                                <span className="reviews__comment--content__date">January 11, 2022</span>
-                            </div>
-                        </div>
 
-                        <div className="reviews__comment--list d-flex">
-                            <div className="reviews__comment--thumbnail">
-                                <img src="assets/img/other/comment-thumb3.webp" alt="comment-thumbnail"/>
+                        {comment?.map((item,index)=>(
+                            <div className="reviews__comment--list d-flex">
+                                <div className="reviews__comment--thumbnail">
+                                    <img src="assets/img/other/comment-thumb1.webp" alt="comment-thumbnail"/>
+                                </div>
+                                <div className="reviews__comment--content">
+                                    <h4 className="reviews__comment--content__title">Richard Smith</h4>
+                                    <p className="reviews__comment--content__desc">{item.text}</p>
+                                    <span className="reviews__comment--content__date">{item.date.toString().split(0,10)}</span>
+                                </div>
                             </div>
-                            <div className="reviews__comment--content">
-                                <h4 className="reviews__comment--content__title">Richard Smith</h4>
-                                <p className="reviews__comment--content__desc">Lorem ipsum, dolor sit amet consectetur
-                                    adipisicing elit. Eos ex repellat officiis neque. Veniam, rem nesciunt. Assumenda
-                                    distinctio, autem error repellat eveniet ratione dolor facilis accusantium amet
-                                    pariatur, non eius!</p>
-                                <span className="reviews__comment--content__date">January 11, 2022</span>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                     <div id="writereview" className="reviews__comment--reply__area">
                             <h3 className="reviews__comment--reply__title mb-15">Add a review </h3>
-                            <div className="row">
-                                <div className="col-12 mb-10">
-                                    <textarea className="reviews__comment--reply__textarea"
-                                              placeholder="Your Comments...."></textarea>
-                                </div>
-                            </div>
-                            <button className="text-white primary__btn" data-hover="Submit" type="submit">SUBMIT
-                            </button>
+                          <form method='post'   onSubmit={handleSubmit(
+                              (data) =>
+                                  agent.Comment.Create(data).then(()=>{
+                                      toast.success('Your comment has been successfully added');
+                                      setSubmit(false)
+                                  }).catch((err)=>{
+                                      toast.error(err.data.title)
+                                  }))}>
+                              <div className="row">
+                                  <ToastContainer/>
+                                  <div className="col-12 mb-10">
+                                      <input type='hidden' {...register('productId')} value={id} name='productId'/>
+                                      <TextField
+                                          className="reviews__comment--reply__textarea"
+                                          fullWidth
+                                          label="Your Comments...."
+                                          autoComplete="comment"
+                                          {...register('text',{
+                                              required:'Comment is required',
+                                          })}
+                                          error={!!errors.text}
+                                          helperText={errors?.text?.message}
+                                      />
+                                  </div>
+                              </div>
+                              <button className="text-white primary__btn" data-hover="Submit" type="submit">SUBMIT</button>
+                          </form>
                     </div>
                 </div>
             </div>

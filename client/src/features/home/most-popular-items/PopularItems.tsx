@@ -9,6 +9,8 @@ import { Grid } from '@mui/material';
 import ProductList from "../../Products/ProductList";
 import agent from "../../../App/api/agent";
 import {useEffect, useState} from "react";
+import {useAppDispatch, useAppSelector} from "../../../store/configureStore";
+import {fetchProductsAsync, productSelectors} from "../../Products/productSlice";
 
 
 const blue = {
@@ -81,58 +83,34 @@ const Tablist=[
 ]
 
 export default function UnstyledTabsCustomized() {
-    const [category,setCategory] = useState<any[]>([])
+    const product = useAppSelector(productSelectors.selectAll);
+    const {productsLoaded,status,filterLoaded,types,category,productParams,metaData} = useAppSelector(state => state.product)
+    const dispatch = useAppDispatch();
 
-    const [product,setProduct] = useState<any[]>([])
-
-    React.useEffect(() => {
-                try {
-                    agent.Category.getOllCategory().then((data)=>{
-                       category.push(...data)
-                        setCategory(category.slice(0,2))
-                       data.forEach(async function(item:any) {
-                            agent.Product.getProductByCategory(item.id).then((data)=>{
-                            product.push(...data)
-                            })
-                       });
-                        setProduct(product)
-                   })
-                } catch (error) {
-                    console.log(error)
-                }
-
-
-    }, [])
-
-
-    const [value, setValue] = React.useState('1');
-
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-        setValue(newValue);
-    };
- return (
+    useEffect(()=>{
+        if(!productsLoaded) dispatch(fetchProductsAsync())
+    },[productsLoaded,dispatch])
+    if(status.includes('peding') || !metaData)return <h1>Loading...</h1>
+    return (
         <>
-            <Grid  mt={8} container justifyContent="center">
-                <h2 className="section__heading--maintitle">Most Popular Items</h2>
-            </Grid>
-            <TabsUnstyled defaultValue={0}>
-                <Grid container justifyContent="center" >
-                <TabsList  onChange={()=>handleChange} aria-label="lab API tabs example">
-
-                    {category.map((title,index)=>(
-                        <Tab value={index} key={title.name}>{title.name}</Tab>
-                    ))}
-                </TabsList>
-                </Grid>
-                {category.map((title,index)=>(
-                    <TabPanel value={index}>
-                        <div className=" container-fluid row row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-2 mb--n30">
-                            <ProductList  key={title.id} product={product}/>
+            <section className="product__section section--padding pt-10">
+             <div className="container-fluid">
+                 <div className="rov">
+            <div className="col-xl-8 col-12 product__col--width__8">
+                <div className="product__section--wrapper">
+                    <div className="section__heading style2 position__relative border-bottom mb-35">
+                        <h2 className="section__heading--maintitle">Featured Product</h2>
+                    </div>
+                    <div className="product__section--inner">
+                        <div className="row row-cols-xxl-4 row-cols-xl-3 row-cols-lg-4 row-cols-md-3 row-cols-2 mb--n25">
+                            <ProductList product={product.filter(x=>x.featured === true)}/>
                         </div>
-                    </TabPanel>
-                ))
-                }
-            </TabsUnstyled>
+                    </div>
+                </div>
+            </div>
+        </div>
+             </div>
+            </section>
         </>
     )
 }

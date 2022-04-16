@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Identity;
 using System.Text;
 using E_Commerce_API.Domain.Entites;
 using E_Commerce_API.Persistence.Concretes;
@@ -110,6 +109,16 @@ namespace E_Commerce_API.Persistence
 
             #region Dependency Injection Payment service
             services.AddScoped<IstripePaymentService, StripePaymentService>();
+            #endregion
+
+            #region Dependency Injection Comment service
+            services.AddScoped<ICommentReadRepository, CommentReadRepository>();
+            services.AddScoped<ICommentWriteRepository, CommentWriteRepository>();
+            #endregion
+
+            #region Dependency Injection Blog service
+            services.AddScoped<IBlogReadRepository, BlogReadRepository>();
+            services.AddScoped<IBlogWriteRepository, BlogWriteRepository>();
             #endregion
 
         }

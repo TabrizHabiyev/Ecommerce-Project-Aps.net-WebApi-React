@@ -8,6 +8,7 @@ import { store } from './store/configureStore';
 import AdminApp from "./Admin/AdminApp";
 
 const location = window.location.pathname
+const rootElement = document.getElementById('root');
 
 location.includes('admin')  ?
 ReactDOM.render(
@@ -16,7 +17,7 @@ ReactDOM.render(
               <AdminApp/>
           </Provider>
       </BrowserRouter>,
-      document.getElementById('root')
+       rootElement
 )
 :
 ReactDOM.render(
@@ -27,5 +28,5 @@ ReactDOM.render(
             </Provider>
         </BrowserRouter>
     </React.StrictMode>,
-    document.getElementById('root')
+    rootElement
 );

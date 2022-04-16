@@ -8,6 +8,7 @@ import {signOut} from "./accountSlice";
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import {clearBasket} from "../basket/basketSlice";
+import {Link} from "react-router-dom";
 export default function SignedInMenu() {
     const dispatch = useAppDispatch();
     const {user} = useAppSelector(state => state.account);
@@ -33,7 +34,9 @@ export default function SignedInMenu() {
                 TransitionComponent={Fade}
             >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <Link to="/profile">
+                <MenuItem>My account</MenuItem>
+                </Link>
                 <MenuItem onClick={() => {
                     dispatch(signOut());
                     dispatch(clearBasket());

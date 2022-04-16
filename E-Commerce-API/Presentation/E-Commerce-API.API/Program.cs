@@ -15,7 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 #region Enable Authorization using Swagger (JWT)
 builder.Services.AddSwaggerGen(swagger =>
 {
-    swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "Api"});
+    swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "Api" });
     swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
         Name = "Authorization",
@@ -43,7 +43,7 @@ builder.Services.AddSwaggerGen(swagger =>
             new List<string>()
         }
     });
-   
+
 });
 #endregion
 

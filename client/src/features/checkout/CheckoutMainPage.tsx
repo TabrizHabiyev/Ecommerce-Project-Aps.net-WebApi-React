@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../store/configureStore";
-import CheckoutPage from "./CheckoutPage";
 import CheckoutWraper from "./CheckoutWraper";
 
 function CheckoutMainPage() {
@@ -52,15 +51,6 @@ function CheckoutMainPage() {
                                      )}
                                     </tbody>
                                 </table>
-                            </div>
-                            <div className="checkout__discount--code">
-                                    <label>
-                                        <input className="checkout__discount--code__input--field border-radius-5"
-                                               placeholder="Gift card or discount code" type="text"/>
-                                    </label>
-                                    <button className="checkout__discount--code__btn primary__btn border-radius-5"
-                                            type="submit">Apply
-                                    </button>
                             </div>
                             <div className="checkout__total">
                                 <table className="checkout__total--table">

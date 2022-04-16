@@ -18,9 +18,10 @@ import { WithContext as ReactTags } from 'react-tag-input';
 
 import { Upload} from 'antd';
 import DeleteIcon from "@mui/icons-material/Delete";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import AddIcon from "@mui/icons-material/Add";
+import {toast, ToastContainer} from "react-toastify";
 const Dragger = Upload.Dragger;
 
 const KeyCodes = {
@@ -32,7 +33,8 @@ const delimiters = [KeyCodes.comma, KeyCodes.enter];
 function AddProduct() {
     const [fileList, setFileList] = useState<any[]>([]);
     const [FileSend, setFileSend] = useState<any[]>([]);
-
+    const [loading,setLoading] = useState(true);
+    const navigate = useNavigate();
     const removePhoto = (index:number,item:any) =>{
         const newFileList:any = fileList.slice();
         newFileList.splice(index, 1);
@@ -172,7 +174,12 @@ function AddProduct() {
         for (const key in fileList) {
             formData.append('file', fileList[key])
         }
-        agent.Product.createProduct(formData)
+        agent.Product.createProduct(formData).then((data)=>{
+            toast.success("Product is created successful!")
+            navigate('/admin/products/')
+        }).catch((err)=>{
+            toast.error(err.data.title);
+        })
     }
 
 
@@ -360,6 +367,7 @@ function AddProduct() {
                     </Box>
                 </Container>
             </div>
+            <ToastContainer/>
         </div>
     );
     }

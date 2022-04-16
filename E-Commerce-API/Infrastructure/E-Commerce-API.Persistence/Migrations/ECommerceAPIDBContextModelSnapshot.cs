@@ -112,14 +112,12 @@ namespace E_Commerce_API.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClientSecret")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PaymentIntentId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdateDate")
@@ -158,6 +156,52 @@ namespace E_Commerce_API.Persistence.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("BasketItem");
+                });
+
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.Blog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProductName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Blog");
                 });
 
             modelBuilder.Entity("E_Commerce_API.Domain.Entites.Campaign", b =>
@@ -273,6 +317,43 @@ namespace E_Commerce_API.Persistence.Migrations
                     b.ToTable("ColorsProducts");
                 });
 
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ProdictId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("E_Commerce_API.Domain.Entites.OrderAggregate.Order", b =>
                 {
                     b.Property<Guid>("Id")
@@ -298,7 +379,6 @@ namespace E_Commerce_API.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("PaymentIntentId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("SubTotal")
@@ -477,15 +557,15 @@ namespace E_Commerce_API.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("eb0c9fa8-bbba-4a23-aa19-7a18579c9a2b"),
-                            ConcurrencyStamp = "5b00da54-9c8b-4484-99f1-39dee1e72b0b",
+                            Id = new Guid("0627d1df-00ac-420c-bbe2-f31089a00078"),
+                            ConcurrencyStamp = "a55d3606-e4f3-487d-9408-4ab6b1f8be48",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
-                            Id = new Guid("6b545b0f-4fa9-42b3-a1f6-75960f2e9a6d"),
-                            ConcurrencyStamp = "40e419eb-5721-4530-b492-834c72059f5d",
+                            Id = new Guid("36218ee9-046b-445c-93a1-e2204b687492"),
+                            ConcurrencyStamp = "8808673a-94c4-4415-b1a5-3e8bde8c2bbc",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -672,6 +752,17 @@ namespace E_Commerce_API.Persistence.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.Blog", b =>
+                {
+                    b.HasOne("E_Commerce_API.Domain.Entites.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("E_Commerce_API.Domain.Entites.Category", b =>
                 {
                     b.HasOne("E_Commerce_API.Domain.Entites.Category", "MainCategory")
@@ -698,6 +789,25 @@ namespace E_Commerce_API.Persistence.Migrations
                     b.Navigation("Color");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("E_Commerce_API.Domain.Entites.Comment", b =>
+                {
+                    b.HasOne("E_Commerce_API.Domain.Entites.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("E_Commerce_API.Domain.Entites.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("E_Commerce_API.Domain.Entites.OrderAggregate.Order", b =>

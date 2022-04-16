@@ -5,7 +5,7 @@ import {store} from "../../store/configureStore";
 import {PaginatedResponse} from "../../models/pagination";
 
 const sleep = () => new Promise(resolve => setTimeout(resolve, 500));
-axios.defaults.baseURL = 'http://localhost:5029/api/';
+axios.defaults.baseURL = "http://localhost:5029/api/";
 axios.defaults.withCredentials = true;
 const responseBody = (response: AxiosResponse) => response.data;
 
@@ -15,6 +15,7 @@ axios.interceptors.request.use((config:any) => {
     return config;
 })
 axios.interceptors.response.use(async response=>{
+
     await sleep()
     const pagination = response.headers['pagination'];
     if (pagination){
@@ -124,6 +125,19 @@ const Order = {
     list: () => requests.get('order'),
     ById:(id:string) => requests.get(`orders/${id}`),
     create:(values:any) => requests.post('order',values),
+    ollUsersOrder:()=> requests.get('Order/getOllOrders')
+}
+
+const Comment ={
+    ById:(id:any) => requests.get(`Comment/GetComment/id?Productid=${id}`),
+    Create:(value:any) => requests.post('Comment/Post',value)
+}
+
+const Blog = {
+    list: () => requests.get('Blog'),
+    ById:(id:string) => requests.get(`blog/${id}`),
+    Delete:(id:string) => requests.delete(`blog/${id}`),
+    create: (blog: any) => requests.postForm('blog', createFormData(blog)),
 }
 
 const agent ={
@@ -134,7 +148,9 @@ const agent ={
     ProductPhoto,
     Basket,
     Order,
-    Payments
+    Payments,
+    Comment,
+    Blog
 }
 
 export default agent

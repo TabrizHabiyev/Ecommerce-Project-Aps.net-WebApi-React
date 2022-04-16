@@ -13,7 +13,6 @@ namespace E_Commerce_API.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class OrderController : ControllerBase
     {
         private readonly IOrderReadRepository _orderRead;
@@ -33,6 +32,7 @@ namespace E_Commerce_API.API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<List<OrderDto>>>  GetOrders()
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value;
@@ -42,8 +42,35 @@ namespace E_Commerce_API.API.Controllers
         }
 
 
+        [HttpGet("getOllOrders")]
+        public async Task<ActionResult<List<Order>>> GetOllOrers()
+        {
+            var orders = await _orderRead.GetAll().Include(o => o.OrderItems).ToListAsync();
+            if (orders == null) return NotFound();
+            List<Order> ordersLis = new List<Order>();
+
+            foreach (var item in orders)
+            {
+                Order order = new Order()
+                {
+                    BuyerId = item.BuyerId,
+                    ShippingAddress = item.ShippingAddress,
+                    OrderDate = item.OrderDate,
+                    OrderItems = item.OrderItems,
+                    SubTotal = item.SubTotal,
+                    Discount = item.Discount,
+                    Cupon = item.Cupon,
+                    OrderStatus = item.OrderStatus,
+                    PaymentIntentId = item.PaymentIntentId
+                };
+                ordersLis.Add(order);
+            }
+
+            return ordersLis;
+        }
 
         [HttpGet("{id}",Name = "GetOrder")]
+        [Authorize]
         public async Task<ActionResult<Order>> Get(Guid id)
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value;
@@ -54,6 +81,7 @@ namespace E_Commerce_API.API.Controllers
        
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Guid>> CreateOrder(CreateOrderDto orderDto)
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value;

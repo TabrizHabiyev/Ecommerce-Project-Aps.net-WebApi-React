@@ -3,6 +3,10 @@
     margin-left: 10px;
     margin-right: 10px;
 }
+.ant-upload-list-item{
+    display:none;
+    visibility: hidden;
+}
 .productContainer{
     margin-top: 10px;
     border-radius: 3%;
