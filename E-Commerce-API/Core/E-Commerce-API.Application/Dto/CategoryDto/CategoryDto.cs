@@ -14,6 +14,6 @@ namespace E_Commerce_API.Application.Dto.CategoryDto
         public bool IsMain { get; set; }
         public bool IsFatured { get; set; }
         public string? MainCategoryId { get; set; }
-        //public IFormFile? Photo { get; set; }
+        public IFormFile? file { get; set; }
     }
 }

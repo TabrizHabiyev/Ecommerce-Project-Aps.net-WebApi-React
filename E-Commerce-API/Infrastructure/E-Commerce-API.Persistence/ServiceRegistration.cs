@@ -11,6 +11,8 @@ using System.Text;
 using E_Commerce_API.Domain.Entites;
 using AspNetCoreInjection.TypedFactories;
 using E_Commerce_API.Persistence.Concretes;
+using E_Commerce_API.Infrastructure.Interfaces;
+using E_Commerce_API.Infrastructure.ImageService;
 
 namespace E_Commerce_API.Persistence
 {
@@ -60,9 +62,13 @@ namespace E_Commerce_API.Persistence
             .AddEntityFrameworkStores<ECommerceAPIDBContext>();
             #endregion
 
-            #region Dependency Injection service 
+            #region Dependency Injection category service 
             services.AddScoped<ICategoryReadRepository, CategoryReadRepository>();
             services.AddScoped<ICategoryWriteRepository, CategoryWriteRepository>();
+            #endregion
+
+            #region Dependency Injection Image  Services
+            services.AddScoped<IImageServices, ImageServices>();
             #endregion
         }
 

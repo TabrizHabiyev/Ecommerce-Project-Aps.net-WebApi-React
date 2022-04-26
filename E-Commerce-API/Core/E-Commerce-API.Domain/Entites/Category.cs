@@ -19,6 +19,7 @@ namespace E_Commerce_API.Domain.Entites
         public Category? MainCategory { get; set; }
         public Guid? MainCategoryId { get; set;}
         public bool IsDeleted { get; set; }
+        public string? PublicId { get; set; }
         public List<CategoryBrand> categoryBrands { get; set; }
     }
 }

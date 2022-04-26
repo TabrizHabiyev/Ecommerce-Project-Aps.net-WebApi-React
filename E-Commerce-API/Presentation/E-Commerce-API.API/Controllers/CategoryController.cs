@@ -21,20 +21,18 @@ namespace E_Commerce_API.API.Controllers
             _mapper = mapper;
         }
 
-
-
         [HttpGet("{id}")]
         public async Task<IActionResult>  Get(string id)
         {
             return Ok();
         }
 
- 
         [HttpPost]
-        public async Task<IActionResult> CreateCategory([FromBody] CategoryDto categoryDto)
+        public async Task<IActionResult> CreateCategory([FromForm] CategoryDto categoryDto)
         {
            var IsExist = await _categoryRead.GetSingleAsync(x => x.Name == categoryDto.Name);
             if (IsExist != null) return BadRequest("This category already exsist");
+
            Category category = _mapper.Map<Category>(categoryDto);
            await _categoryWrite.AddAsync(category);
            await _categoryWrite.SaveAsync();
@@ -42,5 +40,23 @@ namespace E_Commerce_API.API.Controllers
         }
 
 
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            IQueryable<Category> categoryDto =_categoryRead.GetAll();
+            return Ok(categoryDto);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Remove(string id)
+        {
+            Category category = await _categoryRead.GetByIdAsync(id);
+            if(category == null) NotFound();
+
+            bool succest = _categoryWrite.Remove(category);
+            if (succest) await _categoryWrite.SaveAsync();
+
+            return Ok();
+        }
     }
 }
